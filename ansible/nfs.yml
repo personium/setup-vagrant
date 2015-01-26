@@ -1,0 +1,19 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- hosts: localhost
+  gather_facts: no
+  sudo: yes
+  vars:
+    memcached_version: 1.4.21
+    memcached_lock_maxconn: 1024
+    memcached_cache_maxconn: 1024
+  vars_files: 
+    - ./group_vars/common.yml
+  tasks:
+    - include: ./tasks/common/init_process_account_glassfish.yml
+    - include: ./tasks/nfs/init_fj-dir.yml
+    - include: ./tasks/nfs/init_logback.yml
+
+    - include: ./tasks/nfs/init_memcached_env_os.yml
+    - include: ./tasks/nfs/init_memcached_install.yml
+    - include: ./tasks/nfs/init_memcached_setup.yml

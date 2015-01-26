@@ -1,0 +1,24 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- hosts: localhost
+  gather_facts: no
+  sudo: yes
+  vars_files: 
+    - ./group_vars/common.yml
+    - ./group_vars/web.yml
+  tasks:
+    - include: ./tasks/common/init_process_account_glassfish.yml
+
+    - include: ./tasks/web/init_fj-dir.yml
+
+    - include: ./tasks/web/init_nginx_env_os.yml
+    - include: ./tasks/web/init_nginx_install.yml
+    - include: ./tasks/web/init_nginx_setup.yml
+    - include: ./tasks/web/config_nginx.yml
+
+    - include: ./tasks/web/init_tomcat_install.yml
+    - include: ./tasks/web/init_personium_setup.yml
+    - include: ./tasks/web/personium_deploy.yml
+
+  handlers:
+    - include: ./handlers/web/reload_nginx.yml

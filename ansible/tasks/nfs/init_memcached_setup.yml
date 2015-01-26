@@ -1,0 +1,39 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: deploy /etc/sysconfig/memcached_lock
+  template: src=./resource/nfs/etc/sysconfig/memcached_lock.j2 dest=/etc/sysconfig/memcached_lock owner=root group=root mode=0644
+
+- name: deploy /etc/sysconfig/memcached_cache
+  template: src=./resource/nfs/etc/sysconfig/memcached_cache.j2 dest=/etc/sysconfig/memcached_cache owner=root group=root mode=0644
+
+
+- name: deploy /etc/rc.d/init.d/memcached_lock
+  template: src=./resource/nfs/etc/rc.d/init.d/memcached_lock.j2 dest=/etc/rc.d/init.d/memcached_lock owner=root group=root mode=0755
+
+- name: deploy /etc/rc.d/init.d/memcached_cache
+  template: src=./resource/nfs/etc/rc.d/init.d/memcached_cache.j2 dest=/etc/rc.d/init.d/memcached_cache owner=root group=root mode=0755
+
+
+- name: register memcached_lock into service
+  command: chkconfig --add memcached_lock
+
+- name: register memcached_cache into service
+  command: chkconfig --add memcached_cache
+
+- name: prevent memcached_lock's automatically start
+  command: chkconfig memcached_lock off
+
+- name: prevent memcached_cache automatically start
+  command: chkconfig memcached_cache off
+
+- name: start memcached_lock service
+  command: service memcached_lock start
+  args:
+    chdir: /opt/var/lib/memcached
+    creates: /var/run/memcached/memcached_lock.pid
+
+- name: start memcached_cache service
+  command: service memcached_cache start
+  args:
+    chdir: /opt/var/lib/memcached
+    creates: /var/run/memcached/memcached_cache.pid

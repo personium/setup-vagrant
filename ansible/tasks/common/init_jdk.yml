@@ -1,0 +1,20 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: download JDK
+  command: 'wget -q -O /usr/src/jdk1.8.0_25.tar.gz --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u25-b17/jdk-8u25-linux-x64.tar.gz creates=/usr/src/jdk1.8.0_25.tar.gz'
+
+- name: expand JDK
+  command: "tar -xzf /usr/src/jdk1.8.0_25.tar.gz -C /usr/src creates=/usr/src/jdk1.8.0_25"
+
+- name: change JDK's owner into root/root
+  file: "state=directory path=/usr/src/jdk1.8.0_25 owner=root group=root recurse=yes"
+
+- name: deploy JDK in /opt
+  command: "mv /usr/src/jdk1.8.0_25 /opt creates=/opt/jdk1.8.0_25"
+
+- name: create /opt/jdk1.8.0_25 symlink named by /opt/jdk
+  file: "state=link src=/opt/jdk1.8.0_25 dest=/opt/jdk"
+
+- name: add EXPORT JAVA in /root/.bashrc
+  copy: src=./resource/common/etc/bashrc dest=/etc/bashrc owner=root group=root mode=0644
+

@@ -1,0 +1,79 @@
+#
+# personium
+# Copyright 2014 FUJITSU LIMITED
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+#################################################
+#dc-core configurations
+#################################################
+
+# general configurations
+com.fujitsu.dc.core.masterToken={{ master_token }}
+com.fujitsu.dc.core.unitUser.issuers={{ base_url}}/UnitUserCell/ {{ base_url}}/servicemanager/
+
+# elasticsearch configurations
+com.fujitsu.dc.core.es.cluster.name=clusterdc
+com.fujitsu.dc.core.es.hosts={{ es_host }}:9300
+
+# engine configurations
+com.fujitsu.dc.core.engine.port=18888
+com.fujitsu.dc.core.unitScheme=http
+
+# lock type configurations
+com.fujitsu.dc.core.lock.type=memcached
+com.fujitsu.dc.core.lock.memcached.host={{ cache_host }}
+com.fujitsu.dc.core.lock.memcached.port={{ cache_port }}
+
+# cache configurations
+com.fujitsu.dc.core.cache.type=memcached
+com.fujitsu.dc.core.cache.memcached.host={{ lock_host }}
+com.fujitsu.dc.core.cache.memcached.port={{ lock_port }}
+com.fujitsu.dc.core.cache.cell.enabled=true
+com.fujitsu.dc.core.cache.box.enabled=true
+com.fujitsu.dc.core.cache.schema.enabled=true
+com.fujitsu.dc.core.cache.memcached.expiresin=86400
+
+# authentic data store configurations
+com.fujitsu.dc.core.es.ads.type=none
+
+# security configurations
+com.fujitsu.dc.core.security.sercret16={{ secret16.stdout }}
+com.fujitsu.dc.core.security.auth.password.salt={{ salt.stdout }}
+
+# dav configurations
+com.fujitsu.dc.core.dav.fsync.enabled=true
+
+#################################################
+#dc-engine configurations
+#################################################
+
+# general configurations
+#com.fujitsu.dc.engine.masterToken=
+com.fujitsu.dc.engine.defaultBaseUrl={{ base_url}}
+com.fujitsu.dc.engine.useDebug=
+com.fujitsu.dc.engine.debugSource=
+
+# elasticsearch configurations
+com.fujitsu.dc.engine.elasticsearch.cluster=clusterdc
+com.fujitsu.dc.engine.elasticsearch.hosts={{ es_host }}:9300
+
+# status check
+com.fujitsu.dc.core.status.requestProxyUrl={{ base_url}}
+
+# security configurations
+com.fujitsu.dc.engine.security.sercret16={{ secret16.stdout }}
+
+# dav configurations
+com.fujitsu.dc.engine.dav.fsync.enabled=true

@@ -1,0 +1,9 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: delete /opt/nginx/conf/pcs_version.d
+  file: state=absent path=/opt/nginx/conf/pcs_version.d
+
+- name: deploy /opt/nginx/conf
+  copy: src=./resource/web/opt/nginx/conf dest=/opt/nginx owner=root group=root
+  notify:
+  - reload nginx

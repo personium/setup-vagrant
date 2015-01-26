@@ -1,0 +1,72 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: create /fj 
+  file: state=directory path=/fj owner=root group=root mode=0755
+
+
+- name: create /opt/disk1/dc-core 
+  file: state=directory path=/opt/disk1/dc-core owner=root group=root mode=0755
+
+- name: create /opt/disk1/dc-core/log 
+  file: state=directory path=/opt/disk1/dc-core/log owner=glassfish group=glassfish mode=0755
+
+- name: create /fj/dc-core 
+  file: state=directory path=/fj/dc-core owner=glassfish group=glassfish mode=0755
+
+- name: create /opt/disk1/dc-core/log symlink named by /fj/dc-core
+  file: state=link src=/opt/disk1/dc-core/log dest=/fj/dc-core/log owner=glassfish group=glassfish mode=0777
+
+
+- name: create /opt/disk1/dc-engine 
+  file: state=directory path=/opt/disk1/dc-engine owner=root group=root mode=0755
+
+- name: create /opt/disk1/dc-engine/log 
+  file: state=directory path=/opt/disk1/dc-engine/log owner=glassfish group=glassfish mode=0755
+
+- name: create /fj/dc-engine 
+  file: state=directory path=/fj/dc-engine owner=glassfish group=glassfish mode=0755
+
+- name: create /opt/disk1/dc-engine/log symlink named by /fj/dc-engine
+  file: state=link src=/opt/disk1/dc-engine/log dest=/fj/dc-engine/log owner=glassfish group=glassfish mode=0777
+
+
+- name: create /opt/disk1/logback 
+  file: state=directory path=/opt/disk1/logback owner=root group=root mode=0755
+
+- name: create /opt/disk1/logback/log 
+  file: state=directory path=/opt/disk1/logback/log owner=glassfish group=glassfish mode=0755
+
+- name: create /fj/logback 
+  file: state=directory path=/fj/logback owner=glassfish group=glassfish mode=0755
+
+- name: create /opt/disk1/logback/log symlink named by /fj/logback
+  file: state=link src=/opt/disk1/logback/log dest=/fj/logback/log owner=glassfish group=glassfish mode=0777
+
+
+- name: create /fjnfs 
+  file: state=directory path=/fjnfs owner=root group=root mode=0755
+
+
+- name: create /opt/disk2/dc-core 
+  file: state=directory path=/opt/disk2/dc-core owner=root group=root mode=0755
+
+- name: create /opt/disk2/dc-core/dav 
+  file: state=directory path=/opt/disk2/dc-core/dav owner=glassfish group=glassfish mode=0755
+
+- name: create /opt/disk2/dc-core/eventlog 
+  file: state=directory path=/opt/disk2/dc-core/eventlog owner=glassfish group=glassfish mode=0755
+
+- name: create /opt/disk2/dc-core/barInstall 
+  file: state=directory path=/opt/disk2/dc-core/barInstall owner=glassfish group=glassfish mode=0755
+
+- name: create /fjnfs/dc-core 
+  file: state=directory path=/fjnfs/dc-core owner=glassfish group=glassfish mode=0755
+
+- name: create /opt/disk2/dc-core/dav symlink namd by /fjnfs/dc-core
+  file: state=link src=/opt/disk2/dc-core/dav dest=/fjnfs/dc-core/dav owner=glassfish group=glassfish mode=0777
+
+- name: create /opt/disk2/dc-core/eventlog symlink named by/fjnfs/dc-core
+  file: state=link src=/opt/disk2/dc-core/eventlog dest=/fjnfs/dc-core/eventlog owner=glassfish group=glassfish mode=0777
+
+- name: create /opt/disk2/dc-core/dav named by /fjnfs/dc-core
+  file: state=link src=/opt/disk2/dc-core/barInstall dest=/fjnfs/dc-core/barInstall owner=glassfish group=glassfish mode=0777

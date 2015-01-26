@@ -1,0 +1,40 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: copy conf into orig.conf
+  command: cp -pr conf orig.conf
+  args:
+    chdir: /opt/nginx-{{ nginx_version }}
+    creates: /opt/nginx-{{ nginx_version }}/orig.conf
+
+- name: create symlink for not depending on varsion
+  file: state=link src=/opt/nginx-{{ nginx_version }} dest=/opt/nginx
+
+
+- name: deploy /etc/rc.d/init.d/nginx
+  copy: src=./resource/web/etc/rc.d/init.d/nginx dest=/etc/rc.d/init.d/nginx owner=root group=root mode=0755
+
+- name: deploy /etc/sysconfig/nginx
+  copy: src=./resource/web/etc/sysconfig/nginx dest=/etc/sysconfig/nginx owner=root group=root mode=0644
+
+- name: deploy /etc/cron.d/nginx
+  copy: src=./resource/web/etc/cron.d/nginx dest=/etc/cron.d/nginx owner=root group=root mode=0644
+
+
+- name: deploy /opt/nginx/conf
+  copy: src=./resource/web/opt/nginx/conf dest=/opt/nginx owner=root group=root
+
+- name: deploy /etc/logrotate.d/nginx
+  copy: src=./resource/web/etc/logrotate.d/nginx dest=/etc/logrotate.d/nginx owner=root group=root mode=0644
+
+
+- name: register nginx into service
+  command: chkconfig --add nginx
+
+- name: prevent nginx automatic start
+  command: chkconfig nginx off
+
+- name: start nginx's service
+  command: service nginx start
+  args:
+    chdir: /fj/nginx/lib
+    creates: /var/run/nginx.pid

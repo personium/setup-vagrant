@@ -1,0 +1,7 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- include: ./common.yml
+
+- include: ./es.yml
+- include: ./nfs.yml
+- include: ./web.yml

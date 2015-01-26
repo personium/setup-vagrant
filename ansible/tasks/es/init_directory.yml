@@ -1,0 +1,30 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: create directory for log
+  file: "state=directory path=/opt/disk1/elasticsearch-{{ version }}/log owner=elasticsearch group=elasticsearch recurse=yes"
+
+- name: create directory for data
+  file: "state=directory path=/opt/disk2/elasticsearch-{{ version }}/data owner=elasticsearch group=elasticsearch recurse=yes"
+
+- name: create directory for work
+  file: "state=directory path=/opt/disk2/elasticsearch-{{ version }}/work owner=elasticsearch group=elasticsearch recurse=yes"
+
+- name: create /fj directory
+  file: "state=directory path=/fj owner=root group=root"
+
+- name: create /fj/elasticsearch-{{ version }} directory
+  file: "state=directory path=/fj/elasticsearch-{{ version }} owner=elasticsearch group=elasticsearch recurse=yes"
+
+- name: create log directory symlink
+  file: "state=link src=/opt/disk1/elasticsearch-{{ version }}/log dest=/fj/elasticsearch-{{ version }}/log owner=elasticsearch group=elasticsearch"
+
+- name: create data directory symlink
+  file: "state=link src=/opt/disk2/elasticsearch-{{ version }}/data dest=/fj/elasticsearch-{{ version }}/data owner=elasticsearch group=elasticsearch"
+
+- name: create work directory symlink
+  file: "state=link src=/opt/disk2/elasticsearch-{{ version }}/work dest=/fj/elasticsearch-{{ version }}/work owner=elasticsearch group=elasticsearch"
+
+- name: create /fj/elasticsearch symlink
+  file: "state=link src=/fj/elasticsearch-{{ version }} dest=/fj/elasticsearch owner=elasticsearch group=elasticsearch"
+
+

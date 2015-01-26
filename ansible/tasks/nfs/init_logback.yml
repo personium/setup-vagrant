@@ -1,0 +1,83 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: download logback
+  command: wget -q -O logback-1.0.3.tar.gz --no-check-certificate http://logback.qos.ch/dist/logback-1.0.3.tar.gz
+  args:
+    chdir: /usr/local/src
+    creates: /usr/local/src/logback-1.0.3.tar.gz
+
+- name: download slf4j
+  command: wget -q -O slf4j-1.6.4.tar.gz --no-check-certificate http://www.slf4j.org/dist/slf4j-1.6.4.tar.gz
+  args:
+    chdir: /usr/local/src
+    creates: /usr/local/src/slf4j-1.6.4.tar.gz
+
+- name: create /opt/logback
+  file: state=directory path=/opt/logback owner=glassfish group=glassfish mode=0755
+
+- name: /fj/logback/log/logback.log を作成
+  file: path=/fj/logback/log/logback.log state=touch owner=glassfish group=glassfish mode=644
+
+- name: expand logback
+  command: tar xzf /usr/local/src/logback-1.0.3.tar.gz
+  args:
+    chdir: /opt/logback
+    creates: /opt/logback/logback-1.0.3
+
+- name: expand slf4j
+  command: tar xzf /usr/local/src/slf4j-1.6.4.tar.gz
+  args:
+    chdir: /opt/logback
+    creates: /opt/logback/slf4j-1.6.4
+
+
+- name: change permission under /opt/logback/logback-1.0.3
+  file: state=directory path=/opt/logback/logback-1.0.3 owner=glassfish group=glassfish recurse=yes
+
+- name: change permission under /opt/logback/slf4j-1.6.4
+  file: state=directory path=/opt/logback/slf4j-1.6.4 owner=glassfish group=glassfish recurse=yes
+
+- name: download personium.io
+  get_url: url=https://github.com/personium/io/archive/master.zip dest=/tmp/io-master.zip mode=0440
+
+- name: expand personium.io
+  unarchive: src=/tmp/io-master.zip dest=/tmp copy=no
+
+- name: build dc1-logback module
+  command: /opt/apache-maven-3.2.5/bin/mvn package
+  args:
+    chdir: /tmp/io-master/logback/
+  environment:
+    JAVA_HOME: /opt/jdk
+
+- name: change dc1-logback module's owner
+  file: "path=/tmp/io-master/logback/target/ owner=glassfish group=glassfish mode=644 recurse=yes"
+
+- name: deploy /fj/logback/dc1-logback.jar
+  shell: mv /tmp/io-master/logback/target/dc1-logback-*.jar /fj/logback/dc1-logback.jar
+
+- name: deploy /opt/logback/logback.xml
+  copy: src=./resource/nfs/opt/logback/logback.xml dest=/opt/logback/logback.xml owner=glassfish group=glassfish mode=0644
+
+- name: deploy /etc/rc.d/init.d/logback
+  copy: src=./resource/nfs/etc/rc.d/init.d/logback dest=/etc/rc.d/init.d/logback owner=root group=root mode=0755
+
+- name: deploy /opt/logback/logback.sh
+  copy: src=./resource/nfs/opt/logback/logback.sh dest=/opt/logback/logback.sh owner=root group=root mode=0755
+
+
+- name: create /var/run/logback
+  file: state=directory path=/var/run/logback owner=glassfish group=glassfish mode=0755
+
+
+- name: register logback into service
+  command: chkconfig --add logback
+
+- name: prevent logback's automatically start
+  command: chkconfig logback off
+
+- name: start logback service
+  command: service logback start
+  args:
+    chdir: /opt/logback
+    creates: /var/run/logback/logback.pid

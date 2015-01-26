@@ -1,0 +1,7 @@
+/fj/nginx/log/*/*.log {
+    missingok
+    sharedscripts
+    postrotate
+        /sbin/service nginx reload > /dev/null 2>/dev/null || true
+    endscript
+}

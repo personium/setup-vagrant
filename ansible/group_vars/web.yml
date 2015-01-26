@@ -1,0 +1,7 @@
+# Copyright FUJITSU LIMITED 2014.
+
+nginx_version: 1.7.6
+nginx_hm_version: 0.25
+
+tomcat_version: 8.0.14
+commons_daemon_version : 1.0.15

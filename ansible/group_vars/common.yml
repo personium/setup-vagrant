@@ -1,0 +1,30 @@
+# Copyright FUJITSU LIMITED 2014.
+
+# proxy setting
+http_proxy: "{{lookup('env', 'http_proxy')}}"
+
+# pcs config settings
+master_token: personiumio
+base_url: http://localhost
+
+# appserver setting
+tomcat_xms: 512m
+tomcat_xmx: 512m
+tomcat_metaspace_size: 256m
+tomcat_max_metaspace_size: 256m
+
+# elasticsearch instance
+es_host: localhost
+
+# elasticsearch heapsize
+es_heapsize: 256
+
+# lock / cache instance
+lock_host: localhost
+lock_port: 11211
+cache_host: localhost
+cache_port: 11212
+
+# ec2 memcached cachesize
+memcached_lock_cachesize: 64
+memcached_cache_cachesize: 64

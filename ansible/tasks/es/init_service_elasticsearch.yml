@@ -1,0 +1,16 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: start elasticsearch service
+  service: name=elasticsearch state=started
+
+- name: prevent elasticsearch automatically start
+  command: "chkconfig elasticsearch off"
+# Below line makes chkconfig OFF , but elasticsearch automatically start because there is SXX script undre rc3.d
+# service: name=elasticsearch enabled=no
+
+- name: give varsion name to startup script
+  command: "mv /etc/init.d/elasticsearch /etc/init.d/elasticsearch-{{ version }} creates=/etc/init.d/elasticsearch-{{ version }}"
+
+- name: create startup script symlink
+  file: "state=link src=/etc/init.d/elasticsearch-{{ version }} dest=/etc/init.d/elasticsearch owner=root group=root force=yes"
+

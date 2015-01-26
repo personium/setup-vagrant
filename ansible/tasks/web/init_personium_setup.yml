@@ -1,0 +1,22 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: create /fj/dc-core/conf/token.key in local (for common file between servers)
+  local_action: shell perl -le 'print map { ("a".."z", 0..9)[rand 36] } 1..16' > ./resource/web/fj/dc-core/conf/token.key creates="./resource/web/fj/dc-core/conf/token.key"
+  run_once: true
+
+- name: deploy /fj/dc-core/conf/token.key
+  copy: src=./resource/web/fj/dc-core/conf/token.key dest=/fj/dc-core/conf/token.key owner=root group=root mode=0400
+
+- name: create /fj/dc-core/conf/salt.key in local (for common file between servers）
+  local_action: shell perl -le 'print map { ("a".."z","A".."Z", 0..9)[rand 36] } 1..8' > ./resource/web/fj/dc-core/conf/salt.key creates="./resource/web/fj/dc-core/conf/salt.key"
+  run_once: true
+
+- name: deploy /fj/dc-core/conf/salt.key
+  copy: src=./resource/web/fj/dc-core/conf/salt.key dest=/fj/dc-core/conf/salt.key owner=root group=root mode=0400
+
+- name: create /opt/x509 directory
+  file: "state=directory path=/opt/x509 owner=glassfish group=glassfish mode=550"
+
+- name: create /opt/logback directory
+  file: "state=directory path=/opt/logback owner=glassfish group=glassfish"
+

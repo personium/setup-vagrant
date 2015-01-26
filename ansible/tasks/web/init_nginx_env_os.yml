@@ -1,0 +1,61 @@
+# Copyright FUJITSU LIMITED 2014.
+
+- name: create group
+  group: name=nginx gid=2010 state=present
+
+- name: create user
+  user: name=nginx uid=2010 shell=/sbin/nologin group=nginx home=/fj/nginx/lib comment="Nginx Administrator" createhome=no
+
+
+- name: create /opt/disk1/nginx
+  file: state=directory path=/opt/disk1/nginx owner=root group=root mode=0755
+
+- name: create /opt/disk1/nginx/lib
+  file: state=directory path=/opt/disk1/nginx/lib owner=nginx group=root mode=0755
+
+- name: create /opt/disk1/nginx/log
+  file: state=directory path=/opt/disk1/nginx/log owner=root group=root mode=0755
+
+- name: create /opt/disk1/nginx/log/main
+  file: state=directory path=/opt/disk1/nginx/log/main owner=root group=root mode=0755
+
+- name: create /opt/disk1/nginx/log/accesslog_443
+  file: state=directory path=/opt/disk1/nginx/log/accesslog_443 owner=root group=root mode=0755
+
+- name: create /opt/disk1/nginx/log/accesslog_80
+  file: state=directory path=/opt/disk1/nginx/log/accesslog_80 owner=root group=root mode=0755
+
+- name: create /opt/disk1/nginx symlink named by /fj
+  file: state=link src=/opt/disk1/nginx dest=/fj/nginx owner=root group=root mode=0777
+
+
+- name: create /opt/disk1/var (for compatibility)
+  file: state=directory path=/opt/disk1/var owner=root group=root mode=0755
+
+- name: create /opt/disk1/var/lib(for compatibility)
+  file: state=directory path=/opt/disk1/var/lib owner=root group=root mode=0755
+
+- name: create /opt/disk1/var/log (for compatibility)
+  file: state=directory path=/opt/disk1/var/log owner=root group=root mode=0755
+
+- name: create /opt/disk1/var/lib/nginx symlink namd by /fj/nginx/lib.  (for compatibility)
+  file: state=link src=/fj/nginx/lib dest=/opt/disk1/var/lib/nginx owner=root group=root mode=0777
+
+- name: create /opt/disk1/var/log/nginx symlink named by /fj/nginx/log  (for compatibility)
+  file: state=link src=/fj/nginx/log dest=/opt/disk1/var/log/nginx owner=root group=root mode=0777
+
+
+- name: create /opt/var (for compatibility)
+  file: state=directory path=/opt/var owner=root group=root mode=0755
+
+- name: create /opt/var/lib (for compatibility)
+  file: state=directory path=/opt/var/lib owner=root group=root mode=0755
+
+- name: create /opt/var/log (for compatibility)
+  file: state=directory path=/opt/var/log owner=root group=root mode=0755
+
+- name: create /opt/var/lib/nginx symlink named by /fj/nginx/lib (for compatibility)
+  file: state=link src=/fj/nginx/lib dest=/opt/var/lib/nginx owner=root group=root mode=0777
+
+- name: create /opt/var/log/nginx symlink named by /fj/nginx/log (for compatibility)
+  file: state=link src=/fj/nginx/log dest=/opt/var/log/nginx owner=root group=root mode=0777
