@@ -1,13 +1,11 @@
-personium.io set up
+Try it on your machine
 ====
-
-### Try it on your machine
 
 This procedure sets up personium.io on 1VM using vagrant + ansible.
 
 You can easily set up on your machine and try to explore personium.io APIs.
 
-\* This set up procedure is tested with VirtualBox 4.3.20 and Vagrant 1.7.2.
+\* This procedure is tested with VirtualBox 4.3.20 and Vagrant 1.7.2.
 
 #### Set up
 
@@ -17,13 +15,13 @@ Ok, let's start to set up personium.io!
 
 2. Download and install Vagrant. ([Download page](https://www.vagrantup.com/downloads))
 
-3. Clone this repository (https://github.com/personium/io-vagrant-ansible.git)
+3. Clone this repository. (https://github.com/personium/io-vagrant-ansible.git)
 
 	```bash
 	$ git clone https://github.com/personium/io-vagrant-ansible.git
 	```
 
-4. Change to ansible directory under the local repository, and run vagrant up. \* This process takes around 30 min. 
+4. Change to io-vagrant-ansible directory under the local repository you cloned, and run vagrant up. \* This process takes around 30 min. 
 
 	```bash
 	$ cd ./io-vagrant-ansible
@@ -36,7 +34,7 @@ Ok, let's start to set up personium.io!
 	$ curl -X POST "http://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer personiumio" -H "Accept:application/json" -i -s
 	```
 
-	If personium.io work fine , 201 response is returned as below. Cell is successfully created!
+	If personium.io works fine , 201 response is returned as below. Cell is successfully created!
 
 	```bash
 	HTTP/1.1 201 Created
@@ -64,9 +62,7 @@ Before you run `vagrant up` ,
 	$ vagrant plugin install vagrant-proxyconf
 	```
 
-2. Enable proxy setting of Vagrantfile.
-
-	Enable your proxy setting in your Vagrantfile. Below is an example how to setup the proxy.
+2. Enable your proxy setting in your Vagrantfile. Below is an example how to setup the proxy.
 
 	```bash:Vagrantfile
 	 if Vagrant.has_plugin?("vagrant-proxyconf")
@@ -94,7 +90,7 @@ If you set up personium.io in above procedure , personium.io is constructed as b
 
 * personium.io's apps
 
-	This set up deploy core and engine of personium.io on app server
+	This set up deploy core and engine of personium.io on app server.
 
 	|personium.io's apps|version|
 	|:------------------|:------|
@@ -117,7 +113,7 @@ If you set up personium.io in above procedure , personium.io is constructed as b
     |               | commons-daemon |       1.0.15 | --                |
     | nginx         | nginx          |        1.7.6 | proxy             |
     |               | Headers More   |         0.25 | --                |
-    | logback       | logback        |        1.0.3 |                   |
+    | logback       | logback        |        1.0.3 | __                |
     |               | slf4j          |        1.6.4 | --                |
     | memcached     | memcached      |       1.4.21 | cache             |
     | elasticsearch | elasticsearch  |        1.3.4 | db&sarch engine   |
@@ -126,13 +122,3 @@ If you set up personium.io in above procedure , personium.io is constructed as b
 #### Required host machine's RAM
 
 1GB of host machine's RAM is required to run personium.io.
-
-====
-
-### Getting started on cloud
-
-If you are attracted by personium.io , let's start to run on cloud and start to develop your service.
-
-#### Run on AWS
-
-Now preparing
