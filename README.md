@@ -1,4 +1,4 @@
-Try it on your machine
+Try personium.io on your machine
 ====
 
 This procedure sets up personium.io on 1VM using vagrant + ansible.
@@ -88,14 +88,14 @@ If you set up personium.io in above procedure , personium.io is constructed as b
 	|PORT         |1210       |
 	|UnitUserToken|personiumio|
 
-* personium.io's apps
+* personium.io modules
 
-	This set up deploy core and engine of personium.io on app server.
+	Following personium.io modules are deployed on app server.
 
-	|personium.io's apps|version|
-	|:------------------|:------|
-	|dc1-core           |1.3.20 |
-	|dc1-engine         |1.3.20 |
+	|module     |
+	|:----------|
+	|dc1-core   |
+	|dc1-engine |
 
 
 ##### About OS and Middleware on VM
@@ -113,7 +113,7 @@ If you set up personium.io in above procedure , personium.io is constructed as b
     |               | commons-daemon |       1.0.15 | --                |
     | nginx         | nginx          |        1.7.6 | proxy             |
     |               | Headers More   |         0.25 | --                |
-    | logback       | logback        |        1.0.3 | __                |
+    | logback       | logback        |        1.0.3 | --                |
     |               | slf4j          |        1.6.4 | --                |
     | memcached     | memcached      |       1.4.21 | cache             |
     | elasticsearch | elasticsearch  |        1.3.4 | db&sarch engine   |
