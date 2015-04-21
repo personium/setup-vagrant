@@ -17,11 +17,13 @@ Ok, let's start to set up personium.io!
 
 3. Clone this repository. (https://github.com/personium/io-vagrant-ansible.git)
 
+    \* In case of Windows machine, please set core.autocrlf is false in git client's config so there are shell scripts.
+
 	```bash
 	$ git clone https://github.com/personium/io-vagrant-ansible.git
 	```
 
-4. Change to io-vagrant-ansible directory under the local repository you cloned, and run vagrant up. \* This process takes around 30 min. 
+4. Change to io-vagrant-ansible directory under the local repository you cloned, and run vagrant up. \* This process takes around 30 min.
 
 	```bash
 	$ cd ./io-vagrant-ansible
@@ -29,6 +31,8 @@ Ok, let's start to set up personium.io!
 	```
 
 5. Verify your personium.io is up and running.
+
+    \* It sometimes happens that tomcat's start is failed because it takes more than 60 seconds. But tomcat is usually running, so please go to next step ignoring that.
 
 	```bash
 	$ curl -X POST "http://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer personiumio" -H "Accept:application/json" -i -s
