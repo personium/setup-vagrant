@@ -1,13 +1,13 @@
 personium.io
-Copyright 2014 FUJITSU LIMITED
+Copyright FUJITSU LIMITED 2014-2018
 
 This product is licensed under Apache License, Version 2.0.
 
 Following open source software products are partially reused with/without some modifications in this product.
 Use of such parts may be subject to the license terms of original products.
 
- - Apache2 
-   -odata4j        https://github.com/odata4j/odata4j  
+ - Apache2
+   -odata4j        https://github.com/odata4j/odata4j
    -oauth(commons) https://github.com/spullara/oauth
  - EPL v1.0
    -logback(logback-classic,logback-core) https://github.com/qos-ch/logback

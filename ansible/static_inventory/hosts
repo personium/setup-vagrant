@@ -1,0 +1,45 @@
+############ Private IP Address of Bastion server ############
+[tag_ServerType_bastion]
+#Fill in the Private IP Address of Bastion server
+127.0.0.1
+
+############ Private IP Address of Personium server ############
+[tag_ServerType_personium]
+#Fill in the Private IP Address of Personium server
+127.0.0.1
+
+############ Setting items of bastion server ############
+[tag_ServerType_bastion:vars]
+
+## Hostname
+tag_Name=example_personium
+
+## User who runs ansible
+ansible_ssh_user=root
+
+## Secret key for executing ansible(Absolute path)
+ansible_ssh_private_key_file=/root/.ssh/id_rsa
+
+# Master Token of Personium
+master_token=example_master_token
+
+## Web server FQDN
+base_url=https://localhost
+
+############ Setting items of Personium server ############
+[tag_ServerType_personium:vars]
+
+## Hostname
+tag_Name=example_personium
+
+## User who runs ansible
+ansible_ssh_user=root
+
+## Secret key for executing ansible(Absolute path)
+ansible_ssh_private_key_file=/root/.ssh/id_rsa
+
+# Master Token of Personium
+master_token=example_master_token
+
+## Web server FQDN
+base_url=https://localhost

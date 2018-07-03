@@ -12,8 +12,8 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "centos6.5"
-  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box"
+  config.vm.box = "centos/7"
+  config.vm.box_url = "https://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1803_01.VirtualBox.box"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 80, host: 1210
+  config.vm.network "forwarded_port", guest: 443, host: 1210
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -56,7 +56,7 @@ Vagrant.configure(2) do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "1024"
+    vb.memory = "2048"
   end
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
@@ -79,16 +79,31 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-  # 
+  #
   config.vm.provision "shell", inline: <<-SHELL
     # package install
     yum -y install epel-release
     yum -y install python-devel unzip wget ansible
+    ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ""
+    cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 
     # provision with ansible
-    cp -r /vagrant/ansible/* /home/vagrant/
-    chmod 644 hosts.ini
-    ansible-playbook -i hosts.ini -c local init_personium.yml
+    cp -r /vagrant/ansible /root
+    cd /root/ansible
+
+    # Making of self-signing certificate
+    openssl genrsa -out /root/ansible/resource/web/opt/nginx/conf/server.key 2048
+    openssl req -new -key /root/ansible/resource/web/opt/nginx/conf/server.key -out /root/ansible/resource/web/opt/nginx/conf/server.csr -subj "/CN=localhost"
+    openssl x509 -req -days 365 -in /root/ansible/resource/web/opt/nginx/conf/server.csr -signkey /root/ansible/resource/web/opt/nginx/conf/server.key -out /root/ansible/resource/web/opt/nginx/conf/server.crt
+
+    # Making of unit-self-sign certificate
+    openssl genrsa -out /root/ansible/resource/ap/opt/x509/unit.key 2048 -outform DER
+    openssl req -new -key /root/ansible/resource/ap/opt/x509/unit.key -out /root/ansible/resource/ap/opt/x509/unit.csr -subj "/CN=localhost"
+    openssl x509 -req -days 3650 -in /root/ansible/resource/ap/opt/x509/unit.csr -signkey /root/ansible/resource/ap/opt/x509/unit.key -out /root/ansible/resource/ap/opt/x509/unit-self-sign.crt
+
+    date; ansible-playbook /root/ansible/init_personium.yml ; date
   SHELL
+
+
 
 end

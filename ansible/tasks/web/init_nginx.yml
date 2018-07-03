@@ -1,0 +1,4 @@
+# Copyright FUJITSU LIMITED 2015-2018.
+
+- name: Deploy /etc/sysconfig/nginx
+  copy: src=./resource/web/etc/sysconfig/nginx dest=/etc/sysconfig/nginx owner=root group=root mode=0644

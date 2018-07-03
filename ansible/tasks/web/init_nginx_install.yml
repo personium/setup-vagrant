@@ -1,62 +1,53 @@
-# Copyright FUJITSU LIMITED 2014.
+# Copyright FUJITSU LIMITED 2015-2018.
 
-- name: install pcre-devel
+- name: Install pcre-devel
   yum: name=pcre-devel state=latest
 
-- name: install zlib-devel
+- name: Install zlib-devel
   yum: name=zlib-devel state=latest
 
-- name: install openssl-devel
+- name: Install openssl-devel
   yum: name=openssl-devel state=latest
 
-- name: install lsof
+- name: Install lsof
   yum: name=lsof state=latest
 
-- name: install gcc
+- name: Install gcc
   yum: name=gcc state=latest
 
-- name: install gcc-c++
+- name: Install gcc-c++
   yum: name=gcc-c++ state=latest
 
-- name: install bison
+- name: Install bison
   yum: name=bison state=latest
 
-- name: install perl
+- name: Install perl
   yum: name=perl state=latest
 
-- name: install patch
+- name: Install patch
   yum: name=patch state=latest
 
 
-- name: download nginx-{{ nginx_version }}.tar.gz
+- name: Download nginx-{{ nginx_version }}.tar.gz
   get_url: url=http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz dest=/usr/local/src/nginx-{{ nginx_version }}.tar.gz
 
-- name: download nginx-headers-more-nginx-module-v{{ nginx_hm_version }}.tar.gz
+- name: Download nginx-headers-more-nginx-module-v{{ nginx_hm_version }}.tar.gz
   get_url: url=https://github.com/agentzh/headers-more-nginx-module/archive/v{{ nginx_hm_version }}.tar.gz dest=/usr/local/src/nginx-headers-more-nginx-module-v{{ nginx_hm_version }}.tar.gz
 
-- name: expand nginx-{{ nginx_version }}.tar.gz
+- name: Expand nginx-{{ nginx_version }}.tar.gz
   unarchive: src=/usr/local/src/nginx-{{ nginx_version }}.tar.gz dest=/usr/local/src copy=no
 
-- name: expand nginx-headers-more-nginx-module-v{{ nginx_hm_version }}.tar.gz
+- name: Expand nginx-headers-more-nginx-module-v{{ nginx_hm_version }}.tar.gz
   unarchive: src=/usr/local/src/nginx-headers-more-nginx-module-v{{ nginx_hm_version }}.tar.gz dest=/usr/local/src copy=no
              creates=/usr/local/src/nginx-headers-more-nginx-module-v{{ nginx_hm_version }}
 
-- name: change headers-more-nginx-module-{{ nginx_hm_version }} to nginx-headers-more-nginx-module-v{{ nginx_hm_version }}
+- name: Rename nginx-headers-more-nginx-module-v{{ nginx_hm_version }}
   command: mv headers-more-nginx-module-{{ nginx_hm_version }} nginx-headers-more-nginx-module-v{{ nginx_hm_version }}
   args:
     chdir: /usr/local/src
     creates: /usr/local/src/nginx-headers-more-nginx-module-v{{ nginx_hm_version }}
 
-- name: deploy nginx-{{ nginx_version }}.diff
-  copy: src=./resource/diff/nginx-{{ nginx_version }}.diff dest=/usr/local/src/nginx-{{ nginx_version }}.diff owner=root group=root mode=0644
-
-- name: apply ETag's patch to nginx-{{ nginx_version }}
-  shell: patch -p0 < nginx-{{ nginx_version }}.diff && touch nginx-{{ nginx_version }}/step1
-  args:
-    chdir: /usr/local/src
-    creates: /usr/local/src/nginx-{{ nginx_version }}/step1
-
-- name: configure nginx
+- name: Configure nginx
   command: >
     ./configure
     --prefix=/opt/nginx-{{ nginx_version }}
@@ -71,13 +62,13 @@
     chdir: /usr/local/src/nginx-{{ nginx_version }}
     creates: /usr/local/src/nginx-{{ nginx_version }}/Makefile
 
-- name: compile nginx
+- name: Compile nginx
   command: make
   args:
     chdir: /usr/local/src/nginx-{{ nginx_version }}
     creates: /usr/local/src/nginx-{{ nginx_version }}/objs/nginx
 
-- name: install nginx
+- name: Install nginx
   command: make install
   args:
     chdir: /usr/local/src/nginx-{{ nginx_version }}

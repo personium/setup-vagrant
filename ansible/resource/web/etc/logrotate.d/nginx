@@ -1,4 +1,4 @@
-/fj/nginx/log/*/*.log {
+/personium/nginx/log/*/*.log {
     missingok
     sharedscripts
     postrotate

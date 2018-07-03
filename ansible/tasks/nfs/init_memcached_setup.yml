@@ -1,39 +1,31 @@
-# Copyright FUJITSU LIMITED 2014.
+# Copyright FUJITSU LIMITED 2015-2018.
 
-- name: deploy /etc/sysconfig/memcached_lock
+- name: Deploy /etc/logrotate.d/memcached
+  template: src=./resource/nfs/etc/logrotate.d/memcached dest=/etc/logrotate.d/memcached owner=root group=root mode=0644
+
+- name: Deploy /etc/sysconfig/memcached_lock
   template: src=./resource/nfs/etc/sysconfig/memcached_lock.j2 dest=/etc/sysconfig/memcached_lock owner=root group=root mode=0644
 
-- name: deploy /etc/sysconfig/memcached_cache
+- name: Deploy /etc/sysconfig/memcached_cache
   template: src=./resource/nfs/etc/sysconfig/memcached_cache.j2 dest=/etc/sysconfig/memcached_cache owner=root group=root mode=0644
 
+- name: Deploy /etc/systemd/system/memcached_lock.service
+  template: src=./resource/nfs/etc/systemd/system/memcached_lock.service dest=/etc/systemd/system/memcached_lock.service owner=root group=root mode=0755
 
-- name: deploy /etc/rc.d/init.d/memcached_lock
-  template: src=./resource/nfs/etc/rc.d/init.d/memcached_lock.j2 dest=/etc/rc.d/init.d/memcached_lock owner=root group=root mode=0755
+- name: Deploy /etc/systemd/system/memcached_cache.service
+  template: src=./resource/nfs/etc/systemd/system/memcached_cache.service dest=/etc/systemd/system/memcached_cache.service owner=root group=root mode=0755
 
-- name: deploy /etc/rc.d/init.d/memcached_cache
-  template: src=./resource/nfs/etc/rc.d/init.d/memcached_cache.j2 dest=/etc/rc.d/init.d/memcached_cache owner=root group=root mode=0755
+- name: systemd reload
+  command: systemctl daemon-reload
 
+- name: Start memcached_lock
+  systemd:
+    name: memcached_lock
+    state: started
+    enabled: yes
 
-- name: register memcached_lock into service
-  command: chkconfig --add memcached_lock
-
-- name: register memcached_cache into service
-  command: chkconfig --add memcached_cache
-
-- name: prevent memcached_lock's automatically start
-  command: chkconfig memcached_lock off
-
-- name: prevent memcached_cache automatically start
-  command: chkconfig memcached_cache off
-
-- name: start memcached_lock service
-  command: service memcached_lock start
-  args:
-    chdir: /opt/var/lib/memcached
-    creates: /var/run/memcached/memcached_lock.pid
-
-- name: start memcached_cache service
-  command: service memcached_cache start
-  args:
-    chdir: /opt/var/lib/memcached
-    creates: /var/run/memcached/memcached_cache.pid
+- name: Start memcached_cache
+  systemd:
+    name: memcached_cache
+    state: started
+    enabled: yes

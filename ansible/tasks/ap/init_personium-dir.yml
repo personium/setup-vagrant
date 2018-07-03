@@ -1,0 +1,58 @@
+# Copyright FUJITSU LIMITED 2015-2018.
+
+- name: Create /personium/personium-core directory
+  file: state=directory path=/personium/personium-core owner=personium group=personium mode=0755
+
+- name: Create /personium/personium-core/log directory
+  file: state=directory path=/personium/personium-core/log owner=personium group=personium mode=0755
+
+- name: Create /personium/personium-core/conf directory
+  file: state=directory path=/personium/personium-core/conf owner=root group=root mode=0755
+
+- name: Create /personium/personium-core/conf/18888 directory
+  file: state=directory path=/personium/personium-core/conf/18888 owner=root group=root mode=0755
+
+- name: Create /personium/personium-core/conf/28888 directory
+  file: state=directory path=/personium/personium-core/conf/28888 owner=root group=root mode=0755
+
+- name: Create /personium/personium-core/conf/38888 directory
+  file: state=directory path=/personium/personium-core/conf/38888 owner=root group=root mode=0755
+
+- name: Create /personium/personium-core/conf/48888 directory
+  file: state=directory path=/personium/personium-core/conf/48888 owner=root group=root mode=0755
+
+- name: Create /personium/personium-core/ads directory
+  file: state=directory path=/personium/personium-core/ads owner=personium group=personium mode=0755
+
+- name: Create /personium/personium-core/plugins directory
+  file: state=directory path=/personium/personium-core/plugins owner=personium group=personium mode=0755
+
+- name: Create /personium/personium-engine directory
+  file: state=directory path=/personium/personium-engine owner=personium group=personium mode=0755
+
+- name: Create /personium/personium-engine/log directory
+  file: state=directory path=/personium/personium-engine/log owner=personium group=personium mode=0755
+
+- name: Create /personium/personium-engine/extensions directory
+  file: state=directory path=/personium/personium-engine/extensions owner=personium group=personium mode=0755
+
+- name: Create /personium/personium directory
+  file: state=directory path=/opt/ap_piolog/personium owner=personium group=personium mode=0755
+
+- name: Create /personium/personium/log directory
+  file: state=directory path=/opt/ap_piolog/personium/log owner=personium group=personium mode=0755
+
+- name: Create /personium_nfs directory
+  file: state=directory path=/personium_nfs owner=root group=root mode=0755
+
+- name: Create /personium_nfs/personium-core directory
+  file: state=directory path=/personium_nfs/personium-core owner=personium group=personium mode=0755
+
+- name: Create /personium_nfs/personium-core/dav directory
+  file: path=/opt/nfs1/personium-core/dav state=directory owner=personium group=personium mode=0777
+
+- name: Create /personium_nfs/personium-core/eventlog directory
+  file: path=/opt/nfs1/personium-core/eventlog state=directory owner=personium group=personium mode=0777
+
+- name: Create /personium_nfs/personium-core/barInstall directory
+  file: path=/opt/nfs1/personium-core/barInstall state=directory owner=personium group=personium mode=0777

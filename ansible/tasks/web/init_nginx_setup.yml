@@ -1,40 +1,34 @@
-# Copyright FUJITSU LIMITED 2014.
+# Copyright FUJITSU LIMITED 2015-2018.
 
-- name: copy conf into orig.conf
+- name: copy default conf
   command: cp -pr conf orig.conf
   args:
     chdir: /opt/nginx-{{ nginx_version }}
     creates: /opt/nginx-{{ nginx_version }}/orig.conf
 
-- name: create symlink for not depending on varsion
+- name: Create /opt/nginx symlink
   file: state=link src=/opt/nginx-{{ nginx_version }} dest=/opt/nginx
 
-
-- name: deploy /etc/rc.d/init.d/nginx
-  copy: src=./resource/web/etc/rc.d/init.d/nginx dest=/etc/rc.d/init.d/nginx owner=root group=root mode=0755
-
-- name: deploy /etc/sysconfig/nginx
+- name: Deploy /etc/sysconfig/nginx
   copy: src=./resource/web/etc/sysconfig/nginx dest=/etc/sysconfig/nginx owner=root group=root mode=0644
 
-- name: deploy /etc/cron.d/nginx
-  copy: src=./resource/web/etc/cron.d/nginx dest=/etc/cron.d/nginx owner=root group=root mode=0644
-
-
-- name: deploy /opt/nginx/conf
+- name: Deploy /opt/nginx/conf
   copy: src=./resource/web/opt/nginx/conf dest=/opt/nginx owner=root group=root
 
-- name: deploy /etc/logrotate.d/nginx
+- name: Deploy /opt/nginx/conf/backend.conf
+  template: src=./resource/web/opt/nginx/conf/backend.conf.j2 dest=/opt/nginx/conf/backend.conf owner=root group=root
+
+- name: Deploy /etc/logrotate.d/nginx
   copy: src=./resource/web/etc/logrotate.d/nginx dest=/etc/logrotate.d/nginx owner=root group=root mode=0644
 
+- name: Deploy /etc/systemd/system/nginx.service
+  template: src=./resource/web/etc/systemd/system/nginx.service dest=/etc/systemd/system/nginx.service owner=root group=root mode=0755
 
-- name: register nginx into service
-  command: chkconfig --add nginx
+- name: systemd reload
+  command: systemctl daemon-reload
 
-- name: prevent nginx automatic start
-  command: chkconfig nginx off
-
-- name: start nginx's service
-  command: service nginx start
-  args:
-    chdir: /fj/nginx/lib
-    creates: /var/run/nginx.pid
+- name: Start nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes

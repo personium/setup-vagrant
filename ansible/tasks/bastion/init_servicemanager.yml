@@ -1,0 +1,15 @@
+# Copyright FUJITSU LIMITED 2015-2018.
+
+- name: Deploy /tmp/personium-init-svcmgr.sh
+  template: src=./resource/bastion/tmp/personium-init-svcmgr.sh.j2 dest=/tmp/personium-init-svcmgr.sh mode=744
+
+- name: Execute /tmp/personium-init-svcmgr.sh
+  shell: /bin/sh /tmp/personium-init-svcmgr.sh > /tmp/personium-init-svcmgr.log
+  register: init_svcmgr_result
+  failed_when: "init_svcmgr_result.rc != 0"
+
+- name: Delete /tmp/personium-init-svcmgr.sh
+  file: path=/tmp/personium-init-svcmgr.sh state=absent
+
+- name: Delete personium-init-svcmgr.log
+  file: path=/tmp/personium-init-svcmgr.log state=absent

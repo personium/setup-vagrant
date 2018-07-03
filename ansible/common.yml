@@ -1,11 +1,10 @@
-# Copyright FUJITSU LIMITED 2014.
-
-- hosts: localhost
-  gather_facts: no
-  sudo: yes
-  vars_files: 
-    - ./group_vars/common.yml
-  tasks:
-    - include: ./tasks/common/init_jdk.yml
-    - include: ./tasks/common/init_telnet.yml
-    - include: ./tasks/common/init_maven.yml
+# Copyright FUJITSU LIMITED 2015-2018.
+- include: ./tasks/common/init_unzip.yml
+- include: ./tasks/common/init_wget.yml
+- include: ./tasks/common/init_parted.yml
+- include: ./tasks/common/init_hostname.yml
+- include: ./tasks/common/init_jdk.yml
+- include: ./tasks/common/init_logrotated.yml
+- include: ./tasks/common/init_chrony.yml
+- include: ./tasks/common/disable_ipv6.yml
+- include: ./tasks/common/update_library.yml
