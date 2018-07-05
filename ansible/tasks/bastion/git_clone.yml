@@ -1,0 +1,20 @@
+# Copyright FUJITSU LIMITED 2015-2018.
+
+- name: git install
+  yum: name=git state=latest
+
+- name: git clone core repo
+  git:
+    repo: https://github.com/personium/personium-core.git
+    dest: /tmp/personium-core
+    version: "{{ personium_core_version }}"
+    depth: 1
+    force: yes
+
+- name: git clone engine repo
+  git:
+    repo: https://github.com/personium/personium-engine.git
+    dest: /tmp/personium-engine
+    version: "{{ personium_engine_version }}"
+    depth: 1
+    force: yes

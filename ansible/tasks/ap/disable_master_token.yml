@@ -1,0 +1,18 @@
+# Copyright FUJITSU LIMITED 2015-2018.
+
+- name: Get secret16
+  command: cat /personium/personium-core/conf/token.key
+  register: secret16
+
+- name: Get salt
+  command: cat /personium/personium-core/conf/salt.key
+  register: salt
+
+- name: clear master token
+  set_fact: master_token=""
+
+- name: Deploy personium-unit-config.properties
+  template: src=./resource/ap/personium/personium-core/conf/18888/personium-unit-config.properties.j2 dest=/personium/personium-core/conf/18888/personium-unit-config.properties owner=root group=root mode=0644
+
+- name: restart tomcat
+  systemd: name=tomcat state=restarted

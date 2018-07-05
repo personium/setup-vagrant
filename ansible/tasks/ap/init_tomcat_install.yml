@@ -1,0 +1,124 @@
+# Copyright FUJITSU LIMITED 2015-2018.
+
+- name: Install pcre-devel
+  yum: name=pcre-devel state=latest
+
+- name: Install zlib-devel
+  yum: name=zlib-devel state=latest
+
+- name: Install openssl-devel
+  yum: name=openssl-devel state=latest
+
+- name: Install lsof
+  yum: name=lsof state=latest
+
+- name: Install gcc
+  yum: name=gcc state=latest
+
+- name: Install gcc-c++
+  yum: name=gcc-c++ state=latest
+
+- name: Install bison
+  yum: name=bison state=latest
+
+- name: Install perl
+  yum: name=perl state=latest
+
+- name: Install patch
+  yum: name=patch state=latest
+
+- name: Create download directory
+  file: "state=directory path=/usr/local/src/tomcat owner=root group=root"
+
+- name: Download apache_tomcat_{{ tomcat_version }}.tar.gz
+  get_url: url=http://archive.apache.org/dist/tomcat/tomcat-8/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz dest=/usr/local/src/tomcat/apache-tomcat-{{ tomcat_version }}.tar.gz
+
+- name: Expand apache_tomcat_{{ tomcat_version }}.tar.gz
+  unarchive: src=/usr/local/src/tomcat/apache-tomcat-{{ tomcat_version }}.tar.gz dest=/usr/local/src/tomcat copy=no
+
+- name: Expand commons_daemon
+  file: "state=directory path=/usr/local/src/tomcat owner=root group=root"
+
+- name: Expand commons_daemon_native.tar.gz
+  unarchive: src=/usr/local/src/tomcat/apache-tomcat-{{ tomcat_version }}/bin/commons-daemon-native.tar.gz dest=/usr/local/src/tomcat copy=no
+
+- name: Configure commons_daemon
+  command: >
+    ./configure
+  environment:
+    JAVA_HOME: "/opt/jdk"
+  args:
+    chdir: /usr/local/src/tomcat/commons-daemon-{{ commons_daemon_version }}-native-src/unix
+    creates: /usr/local/src/tomcat/commons-daemon-{{ commons_daemon_version }}-native-src/unix/Makefile
+
+- name: Compile commons_daemon
+  command: make
+  args:
+    chdir: /usr/local/src/tomcat/commons-daemon-{{ commons_daemon_version }}-native-src/unix
+    creates: /usr/local/src/tomcat/commons-daemon-{{ commons_daemon_version }}-native-src/unix/jsvc
+
+- name: Deploy jsvc
+  command: cp /usr/local/src/tomcat/commons-daemon-{{ commons_daemon_version }}-native-src/unix/jsvc /usr/local/src/tomcat/apache-tomcat-{{ tomcat_version }}/bin/ creates="/usr/local/src/tomcat/apache-tomcat-{{ tomcat_version }}/bin/jsvc"
+
+- name: Deploy tomcat
+  command: mv /usr/local/src/tomcat/apache-tomcat-{{ tomcat_version }} /opt/apache-tomcat-{{ tomcat_version }} creates="/opt/apache-tomcat-{{ tomcat_version }}"
+
+- name: Create symlink /opt/tomcat
+  file: state=link src=/opt/apache-tomcat-{{ tomcat_version }} dest=/opt/tomcat owner=root group=root mode=0777
+
+- name: Delete /opt/tomcat/logs
+  file: state=absent path=/opt/tomcat/logs
+
+- name: Create /personium/tomcat directory
+  file: "state=directory path=/personium/tomcat owner=personium group=personium"
+
+- name: Create /personium/tomcat/logs directory
+  file: "state=directory path=/personium/tomcat/logs owner=personium group=personium"
+
+- name: Create symlink /opt/tomcat/logs
+  file: state=link src=/personium/tomcat/logs dest=/opt/tomcat/logs owner=root group=root mode=0777
+
+- name: Change owner /opt/tomcat/conf
+  file: path=/opt/tomcat/conf owner=personium group=personium recurse=yes
+
+- name: Change owner /opt/tomcat/webapps
+  file: path=/opt/tomcat/webapps owner=personium group=personium recurse=yes
+
+- name: Change owner /opt/tomcat/work
+  file: path=/opt/tomcat/work owner=personium group=personium recurse=yes
+
+- name: Change owner /opt/tomcat/temp
+  file: path=/opt/tomcat/temp owner=personium group=personium recurse=yes
+
+- name: Deploy setenv.sh
+  template: src=./resource/ap/opt/tomcat/bin/setenv.sh.j2 dest=/opt/tomcat/bin/setenv.sh owner=personium group=personium mode=755
+
+- name: Deploy daemon.sh
+  copy: src=./resource/ap/opt/tomcat/bin/daemon.sh dest=/opt/tomcat/bin/daemon.sh owner=personium group=personium mode=755
+
+- name: Deploy /opt/tomcat/conf/catalina.policy
+  copy: src=./resource/ap/opt/tomcat/conf/catalina.policy dest=/opt/tomcat/conf/catalina.policy owner=personium group=personium mode=600
+
+- name: Deploy /opt/tomcat/conf/logging.properties
+  copy: src=./resource/ap/opt/tomcat/conf/logging.properties dest=/opt/tomcat/conf/logging.properties owner=personium group=personium mode=600
+
+- name: Deploy /opt/tomcat/conf/server.xml
+  copy: src=./resource/ap/opt/tomcat/conf/server.xml dest=/opt/tomcat/conf/server.xml owner=personium group=personium mode=600
+
+- name: Deploy /opt/tomcat/conf/tomcat-users.xml
+  copy: src=./resource/ap/opt/tomcat/conf/tomcat-users.xml dest=/opt/tomcat/conf/tomcat-users.xml owner=personium group=personium mode=600
+
+- name: Deploy /etc/systemd/system/tomcat.service
+  copy: src=./resource/ap/etc/systemd/system/tomcat.service dest=/etc/systemd/system/tomcat.service  owner=root group=root mode=0755
+
+- name: reload tomcat
+  command: systemctl daemon-reload
+
+- name: Start tomcat
+  systemd:
+    name: tomcat
+    state: started
+    enabled: yes
+
+- name: Deploy /etc/logrotate.d/tomcat
+  copy: src=./resource/ap/etc/logrotate.d/tomcat dest=/etc/logrotate.d/tomcat owner=root group=root mode=644

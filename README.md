@@ -1,44 +1,57 @@
-Try personium.io on your machine
+Try Personium on your machine
 ====
 
-This procedure sets up personium.io on 1VM using vagrant + ansible.
+This procedure sets up Personium on 1VM using vagrant + ansible.
 
-You can easily set up on your machine and try to explore personium.io APIs.
+You can easily set up on your machine and try to explore Personium APIs.
 
-\* This procedure is tested with VirtualBox 4.3.20 and Vagrant 1.7.2.
+#### Operational confirmation environment
+\* This procedure is tested in the following environment
+
+* Version
+  * Windows 8.1 x64
+  * VirtualBox 5.2.8
+  * Vagrant 2.1.0
+
+* Host machine spec
+  * RAM 8 GB
 
 #### Set up
 
-Ok, let's start to set up personium.io!
+Ok, let's start to set up Personium!
 
 1. Download and install VirtualBox. ([Download page](https://www.virtualbox.org/wiki/Downloads))
 
 2. Download and install Vagrant. ([Download page](https://www.vagrantup.com/downloads))
 
-3. Clone this repository. (https://github.com/personium/io-vagrant-ansible.git)
+3. Clone this repository. (https://github.com/personium/setup-vagrant.git)
 
-    \* In case of Windows machine, please set core.autocrlf is false in git client's config so there are shell scripts.
+    \* In case of Windows machine, please set core.autocrlf is false in git client's config so there are shell scripts.  
+	\* If Japanese is included in the path of the git clone directory, vagrant up commnd fails. Please do not include Japanese in the pass.
 
 	```bash
-	$ git clone https://github.com/personium/io-vagrant-ansible.git
+	$ git clone https://github.com/personium/setup-vagrant.git
 	```
 
-4. Change to io-vagrant-ansible directory under the local repository you cloned, and run vagrant up. \* This process takes around 30 min.
+4. Change to setup-vagrant directory under the local repository you cloned, and run vagrant up.
 
    \* It sometimes happens that tomcat's start is failed because it takes more than 60 seconds. But tomcat is usually running, so please go to next step ignoring that.
 
 	```bash
-	$ cd ./io-vagrant-ansible
+	$ cd ./setup-vagrant
 	$ vagrant up
 	```
 
-5. Verify your personium.io is up and running.
+	\* If your network is under a proxy server, please do proxy settings for vagrant and Ansible before running `vagrant up`.
+	[How to Setting in proxy environment](How_to_Setting_in_proxy_environment.md ""),
+
+5. Verify your Personium is up and running.
 
 	```bash
-	$ curl -X POST "http://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer personiumio" -H "Accept:application/json" -i -s
+	$ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -s
 	```
 
-	If personium.io works fine , 201 response is returned as below. Cell is successfully created!
+	If Personium works fine , 201 response is returned as below. Cell is successfully created!
 
 	```bash
 	HTTP/1.1 201 Created
@@ -55,74 +68,49 @@ Ok, let's start to set up personium.io!
 
 	{"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
 	```
+	
 
-\* If your network is under a proxy server...
+#### Information of Personium that you set up
 
-Before you run `vagrant up` ,
+If you set up Personium in above procedure , Personium is constructed as below.
 
-1. Install _vagrant-proxyconf_ plugin. (http://weblabo.oscasierra.net/vagrant-proxyconf/)
-
-	```bash
-	$ vagrant plugin install vagrant-proxyconf
-	```
-
-2. Enable your proxy setting in your Vagrantfile. Below is an example how to setup the proxy.
-
-	```bash:Vagrantfile
-	 if Vagrant.has_plugin?("vagrant-proxyconf")
-	   config.proxy.http = "http://username:password@host:port/"
-	   config.proxy.https = "http://username:password@host:port/"
-	   config.proxy.no_proxy = "localhost,127.0.0.1"
-	 end
-	```
-
-3. After completing proxy setting, run ```vargrant up```.
-
-#### Information of personium.io that you set up
-
-If you set up personium.io in above procedure , personium.io is constructed as below.
-
-##### About local personium.io
+##### About local Personium
 
 * parameters
 
-	|parameter    |           |
-	|:------------|-----------|
-	|FQDN         |localhost  |
-	|PORT         |1210       |
-	|UnitUserToken|personiumio|
+	|parameter    |                    |
+	|:------------|--------------------|
+	|VM Memory       |2048           |
+	|FQDN         |localhost           |
+	|PORT         |1210                |
+	|UnitUserToken|example_master_token|
 
-* personium.io modules
+* Personium modules
 
-	Following personium.io modules are deployed on app server.
+	Following Personium modules are deployed on app server.
 
-	|module     |
-	|:----------|
-	|dc1-core   |
-	|dc1-engine |
+	|module           |
+	|:----------------|
+	|personium-core   |
+	|personium-engine |
 
 
 ##### About OS and Middleware on VM
 
 * OS
 
-	CentOS 6.5 x86_64
+	CentOS 7.2 x86_64
 
 * Middleware
 
     |Category       | Name           |Version       |                   |
     |:--------------|:---------------|-------------:|:------------------|
-    | java          | JDK            |         8u25 | --                |
-    | tomcat        | tomcat         |       8.0.14 | web               |
+    | java          | JDK            |        8u131 | --                |
+    | tomcat        | tomcat         |       8.0.44 | web               |
     |               | commons-daemon |       1.0.15 | --                |
-    | nginx         | nginx          |        1.7.6 | proxy             |
-    |               | Headers More   |         0.25 | --                |
+    | nginx         | nginx          |       1.13.3 | proxy             |
+    |               | Headers More   |         0.32 | --                |
     | logback       | logback        |        1.0.3 | --                |
     |               | slf4j          |        1.6.4 | --                |
     | memcached     | memcached      |       1.4.21 | cache             |
-    | elasticsearch | elasticsearch  |        1.3.4 | db&sarch engine   |
-
-
-#### Required host machine's RAM
-
-1GB of host machine's RAM is required to run personium.io.
+    | elasticsearch | elasticsearch  |        2.4.1 | db&sarch engine   |

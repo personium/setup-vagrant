@@ -1,0 +1,6 @@
+# Copyright FUJITSU LIMITED 2015-2018.
+- name: Deploy master.cf
+  copy: src=./resource/common/etc/postfix/master.cf dest=/etc/postfix/master.cf owner=root group=root mode=0644
+
+- name: Deploy main.cf
+  copy: src=./resource/common/etc/postfix/main.cf dest=/etc/postfix/main.cf owner=root group=root mode=0644

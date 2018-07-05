@@ -1,5 +1,0 @@
-# Copyright FUJITSU LIMITED 2014.
-
-- name: install telnet
-  yum: name=telnet state=latest
-

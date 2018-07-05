@@ -1,16 +1,19 @@
-# Copyright FUJITSU LIMITED 2014.
+# Copyright FUJITSU LIMITED 2015-2018.
 
-- name: start elasticsearch service
-  service: name=elasticsearch state=started
+- name: Deploy /etc/systemd/system/elasticsearch.service
+  template: src=./resource/es/etc/systemd/system/elasticsearch.service dest=/etc/systemd/system/elasticsearch.service owner=root group=root mode=0755
 
-- name: prevent elasticsearch automatically start
-  command: "chkconfig elasticsearch off"
-# Below line makes chkconfig OFF , but elasticsearch automatically start because there is SXX script undre rc3.d
-# service: name=elasticsearch enabled=no
+- name: systemd reload
+  command: systemctl daemon-reload
 
-- name: give varsion name to startup script
-  command: "mv /etc/init.d/elasticsearch /etc/init.d/elasticsearch-{{ version }} creates=/etc/init.d/elasticsearch-{{ version }}"
+- name: Start elasticsearch
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: yes
 
-- name: create startup script symlink
-  file: "state=link src=/etc/init.d/elasticsearch-{{ version }} dest=/etc/init.d/elasticsearch owner=root group=root force=yes"
+- name: Deploy check_cluster_health.sh
+  copy: src=./resource/es/personium/check_cluster_health.sh dest=/personium/check_cluster_health.sh owner=root group=root mode=0755
 
+- name: exec check_cluster_health.sh
+  command: /bin/bash /personium/check_cluster_health.sh {{base_url}}

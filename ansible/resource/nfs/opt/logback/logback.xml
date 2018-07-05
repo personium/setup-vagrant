@@ -3,17 +3,17 @@
 <configuration scan="true" scanPeriod="300 seconds">
 	<property name="LOG_FORMAT" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%contextName] [%thread] [%-5level] %logger{0} %msg%n"/>
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>${LOG_FORMAT}</pattern>
 		</encoder>
 	</appender>
 
 	<appender name="FILE_CORE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/fj/dc-core/log/dc-core.info.log</file>
+		<file>/personium/personium-core/log/personium-core.info.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>/fj/dc-core/log/dc-core.info.log.%d{yyyyMMdd}.gz</fileNamePattern>
+			<fileNamePattern>/personium/personium-core/log/personium-core.info.log.%d{yyyyMMdd}.gz</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>${LOG_FORMAT}</pattern>
@@ -21,7 +21,7 @@
 	</appender>
 
 	<appender name="FILE_CORE" class="ch.qos.logback.core.FileAppender">
-		<file>/fj/dc-core/log/dc-core.log</file>
+		<file>/personium/personium-core/log/personium-core.log</file>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>WARN</level>
 		</filter>
@@ -31,12 +31,12 @@
 		</encoder>
 	</appender>
 
-	<!-- Temporary handling to separate output of EventAPI into other file -->
+	<!-- Provisional response to separate EventAPI output destinations into separate files -->
 	<appender name="FILE_USER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/fj/dc-core/log/dc-user.log</file>
+		<file>/personium/personium-core/log/personium-user.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 		<!-- daily rollover -->
-		<fileNamePattern>/fj/dc-core/log/dc-user.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+		<fileNamePattern>/personium/personium-core/log/personium-user.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>${LOG_FORMAT}</pattern>
@@ -44,10 +44,10 @@
 	</appender>
 
 	<appender name="FILE_ENGINE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/fj/dc-engine/log/dc-engine.log</file>
+		<file>/personium/personium-engine/log/personium-engine.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>/fj/dc-engine/log/dc-engine.log.%d{yyyyMMdd}.gz</fileNamePattern>
+			<fileNamePattern>/personium/personium-engine/log/personium-engine.log.%d{yyyyMMdd}.gz</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>${LOG_FORMAT}</pattern>
@@ -55,10 +55,10 @@
 	</appender>
 
 	<appender name="FILE_REPAIR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/fj/dc-repair/log/dc-repair.log</file>
+		<file>/personium/personium-repair/log/personium-repair.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>/fj/dc-repair/log/dc-repair.log.%d{yyyyMMdd}.gz</fileNamePattern>
+			<fileNamePattern>/personium/personium-repair/log/personium-repair.log.%d{yyyyMMdd}.gz</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>${LOG_FORMAT}</pattern>
@@ -72,9 +72,9 @@
 		</discriminator>
 		<sift>
 			<appender name="FILE-${eventlog_path}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-				<file>/fjnfs/dc-core/eventlog/${eventlog_path}/current/default.log</file>
-				<rollingPolicy class="com.fujitsu.dc.logging.rolling.DcFixedWindowRollingPolicy">
-					<fileNamePattern>/fjnfs/dc-core/eventlog/${eventlog_path}/archive/default.log.%i.zip</fileNamePattern>
+				<file>/personium_nfs/personium-core/eventlog/${eventlog_path}/current/default.log</file>
+				<rollingPolicy class="io.personium.logging.rolling.DcFixedWindowRollingPolicy">
+					<fileNamePattern>/personium_nfs/personium-core/eventlog/${eventlog_path}/archive/default.log.%i.zip</fileNamePattern>
 					<minIndex>1</minIndex>
 					<maxIndex>12</maxIndex>
 				</rollingPolicy>
@@ -89,51 +89,51 @@
 	</appender>
 
 	<appender name="FILE_LOGBACK" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/fj/logback/log/logback.log</file>
+		<file>/personium/logback/log/logback.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>/fj/logback/log/logback.log.%d{yyyyMMdd}.gz</fileNamePattern>
+			<fileNamePattern>/personium/logback/log/logback.log.%d{yyyyMMdd}.gz</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level]  %logger{0} %msg%n</pattern>
 		</encoder>
 	</appender>
 
-	<logger  name="com.fujitsu.dc.core.event"  additivity="false">
-		<!-- It makes DEBUG for output to user script' s DEBUG level log in producion env -->
+	<logger  name="io.personium.core.event"  additivity="false">
+		<!-- To output the DEBUG level log of user script even in production, "DEBUG" is set -->
 		<level value="DEBUG" />
 		<appender-ref ref="FILE_USER" />
 		<appender-ref ref="stdout" />
 	</logger>
-	
-	<logger	name="com.fujitsu.dc.core">
+
+	<logger	name="io.personium.core">
 		<level value ="INFO"/>
 		<appender-ref ref="FILE_CORE" />
 		<appender-ref ref="FILE_CORE_INFO" />
-	</logger>	
+	</logger>
 
-	<logger	name="com.fujitsu.dc.common">
+	<logger	name="io.personium.common">
 		<level value ="INFO"/>
 		<appender-ref ref="FILE_CORE" />
 		<appender-ref ref="FILE_CORE_INFO" />
-	</logger>	
+	</logger>
 
-	<logger	name="com.fujitsu.dc.engine">
+	<logger	name="io.personium.engine">
 		<level value ="INFO"/>
 		<appender-ref ref="FILE_ENGINE" />
-	</logger>	
+	</logger>
 
-	<logger	name="com.fujitsu.dc.client">
+	<logger	name="io.personium.client">
 		<level value ="INFO"/>
 		<appender-ref ref="FILE_ENGINE" />
-	</logger>	
+	</logger>
 
-	<logger	name="com.fujitsu.dc.repair">
+	<logger	name="io.personium.repair">
 		<level value ="INFO"/>
 		<appender-ref ref="FILE_REPAIR" />
-	</logger>	
+	</logger>
 
-	<logger name="com.fujitsu.dc.core.eventbus" additivity="false">
+	<logger name="io.personium.core.eventbus" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="SIFT" />
 	</logger>
@@ -143,7 +143,7 @@
 		<level value="WARN" />
 		<appender-ref ref="FILE_LOGBACK" />
 	</logger>
-	<logger name="com.fujitsu.dc.logging" additivity="false">
+	<logger name="io.personium.logging" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="FILE_LOGBACK" />
 	</logger>

@@ -1,9 +1,12 @@
-# Copyright FUJITSU LIMITED 2014.
+# Copyright FUJITSU LIMITED 2015-2018.
 
-- name: delete /opt/nginx/conf/pcs_version.d
-  file: state=absent path=/opt/nginx/conf/pcs_version.d
+- name: Delete /opt/nginx/conf/personium_version.d
+  file: state=absent path=/opt/nginx/conf/personium_version.d
 
-- name: deploy /opt/nginx/conf
+- name: Deploy /opt/nginx/conf
   copy: src=./resource/web/opt/nginx/conf dest=/opt/nginx owner=root group=root
+
+- name: Deploy /opt/nginx/conf/backend.conf
+  template: src=./resource/web/opt/nginx/conf/backend.conf.j2 dest=/opt/nginx/conf/backend.conf owner=root group=root
   notify:
   - reload nginx

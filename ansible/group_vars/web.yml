@@ -1,7 +1,6 @@
-# Copyright FUJITSU LIMITED 2014.
+# Copyright FUJITSU LIMITED 2015-2018.
 
-nginx_version: 1.7.6
-nginx_hm_version: 0.25
+tag_ServerType: web
 
-tomcat_version: 8.0.14
-commons_daemon_version : 1.0.15
+nginx_version: 1.13.3
+nginx_hm_version: 0.32
