@@ -1,9 +1,9 @@
-Try personium.io on your machine
+Try Personium on your machine
 ====
 
-This procedure sets up personium.io on 1VM using vagrant + ansible.
+This procedure sets up Personium on 1VM using vagrant + ansible.
 
-You can easily set up on your machine and try to explore personium.io APIs.
+You can easily set up on your machine and try to explore Personium APIs.
 
 #### Operational confirmation environment
 \* This procedure is tested in the following environment
@@ -18,7 +18,7 @@ You can easily set up on your machine and try to explore personium.io APIs.
 
 #### Set up
 
-Ok, let's start to set up personium.io!
+Ok, let's start to set up Personium!
 
 1. Download and install VirtualBox. ([Download page](https://www.virtualbox.org/wiki/Downloads))
 
@@ -45,13 +45,13 @@ Ok, let's start to set up personium.io!
 	\* If your network is under a proxy server, please do proxy settings for vagrant and Ansible before running `vagrant up`.
 	[How to Setting in proxy environment](How_to_Setting_in_proxy_environment.md ""),
 
-5. Verify your personium.io is up and running.
+5. Verify your Personium is up and running.
 
 	```bash
 	$ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -s
 	```
 
-	If personium.io works fine , 201 response is returned as below. Cell is successfully created!
+	If Personium works fine , 201 response is returned as below. Cell is successfully created!
 
 	```bash
 	HTTP/1.1 201 Created
@@ -70,11 +70,11 @@ Ok, let's start to set up personium.io!
 	```
 	
 
-#### Information of personium.io that you set up
+#### Information of Personium that you set up
 
-If you set up personium.io in above procedure , personium.io is constructed as below.
+If you set up Personium in above procedure , Personium is constructed as below.
 
-##### About local personium.io
+##### About local Personium
 
 * parameters
 
@@ -85,9 +85,9 @@ If you set up personium.io in above procedure , personium.io is constructed as b
 	|PORT         |1210                |
 	|UnitUserToken|example_master_token|
 
-* personium.io modules
+* Personium modules
 
-	Following personium.io modules are deployed on app server.
+	Following Personium modules are deployed on app server.
 
 	|module           |
 	|:----------------|
