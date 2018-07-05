@@ -5,7 +5,16 @@ This procedure sets up personium.io on 1VM using vagrant + ansible.
 
 You can easily set up on your machine and try to explore personium.io APIs.
 
-\* This procedure is tested with Windows 8.1 and VirtualBox 5.2.8 and Vagrant 2.1.0.
+#### Operational confirmation environment
+\* This procedure is tested in the following environment
+
+* Version
+  * Windows 8.1 x64
+  * VirtualBox 5.2.8
+  * Vagrant 2.1.0
+
+* Host machine spec
+  * RAM 8 GB
 
 #### Set up
 
@@ -39,7 +48,7 @@ Ok, let's start to set up personium.io!
 5. Verify your personium.io is up and running.
 
 	```bash
-	$ curl -X POST "http://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer personiumio" -H "Accept:application/json" -i -s
+	$ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -s
 	```
 
 	If personium.io works fine , 201 response is returned as below. Cell is successfully created!
@@ -59,6 +68,7 @@ Ok, let's start to set up personium.io!
 
 	{"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
 	```
+	
 
 #### Information of personium.io that you set up
 
@@ -70,6 +80,7 @@ If you set up personium.io in above procedure , personium.io is constructed as b
 
 	|parameter    |                    |
 	|:------------|--------------------|
+	|VM Memory       |2048           |
 	|FQDN         |localhost           |
 	|PORT         |1210                |
 	|UnitUserToken|example_master_token|
@@ -103,8 +114,3 @@ If you set up personium.io in above procedure , personium.io is constructed as b
     |               | slf4j          |        1.6.4 | --                |
     | memcached     | memcached      |       1.4.21 | cache             |
     | elasticsearch | elasticsearch  |        2.4.1 | db&sarch engine   |
-
-
-#### Required host machine's RAM
-
-1GB of host machine's RAM is required to run personium.io.

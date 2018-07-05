@@ -33,3 +33,12 @@ This manual explains the settings for running Vagrant in a proxy environment.
    - name: deploy maven's setting.xml
      template: src=./resource/common/settings.xml.j2 dest=/root/.m2/settings.xml owner=root group=root mode=0644
    ```
+   \* If you are using an authentication proxy, modify ./ansible/resource/bastion/settings.xml.j2. 
+   Uncomment the following comment.
+
+   ```
+	 <!--
+      <username>{{maven_proxy_username.stdout}}</username>
+      <password>{{maven_proxy_password.stdout}}</password>
+   -->
+	 ```

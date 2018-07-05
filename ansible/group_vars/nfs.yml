@@ -13,5 +13,5 @@ cache_port: 11212
 
 
 # memcached cachesize
-memcached_lock_cachesize: 64
-memcached_cache_cachesize: 64
+memcached_lock_cachesize: 256
+memcached_cache_cachesize: 256
