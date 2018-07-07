@@ -22,7 +22,7 @@ Ok, let's start to set up Personium!
 
 1. Download and install VirtualBox. ([Download page](https://www.virtualbox.org/wiki/Downloads))
 
-2. Download and install Vagrant. ([Download page](https://www.vagrantup.com/downloads))
+2. Download and install Vagrant. ([Download page](https://www.vagrantup.com/downloads.html))
 
 3. Clone this repository. (https://github.com/personium/setup-vagrant.git)
 
