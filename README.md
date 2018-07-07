@@ -1,107 +1,100 @@
-Try Personium on your machine
+# Try Personium on your machine
 ====
 
-This procedure sets up Personium on 1VM using vagrant + ansible.
+These procedures set up a Personium Unit on 1VM using vagrant + ansible.  
 
-You can easily set up on your machine and try to explore Personium APIs.
+You can easily set up on your machine and try to explore the Personium APIs.
 
-#### Operational confirmation environment
-\* This procedure is tested in the following environment
+#### Confirmed environment  
+The setup procedures described here are tested in the following environment.
 
-* Version
-  * Windows 8.1 x64
-  * VirtualBox 5.2.8
-  * Vagrant 2.1.0
+* Version  
+    * Windows 8.1 x64  
+    * VirtualBox 5.2.8  
+    * Vagrant 2.1.0  
+* Host machine spec  
+    * RAM 8 GB  
 
-* Host machine spec
-  * RAM 8 GB
-
-#### Set up
+#### Setup procedures  
 
 Ok, let's start to set up Personium!
 
-1. Download and install VirtualBox. ([Download page](https://www.virtualbox.org/wiki/Downloads))
+1. Download and install VirtualBox. ([Download page](https://www.virtualbox.org/wiki/Downloads))  
 
-2. Download and install Vagrant. ([Download page](https://www.vagrantup.com/downloads.html))
+1. Download and install Vagrant. ([Download page](https://www.vagrantup.com/downloads.html))  
 
-3. Clone this repository. (https://github.com/personium/setup-vagrant.git)
+1. Clone this repository. (https://github.com/personium/setup-vagrant.git)  
+\* In case of Windows machine, please set core.autocrlf to false in your git client's config so there are shell scripts.  
+\* If Japanese is included in the path of the git clone directory, vagrant up commnd will fail. **Please do not include Japanese in the path.**
 
-    \* In case of Windows machine, please set core.autocrlf is false in git client's config so there are shell scripts.  
-	\* If Japanese is included in the path of the git clone directory, vagrant up commnd fails. Please do not include Japanese in the pass.
+    ```bash
+    $ git clone https://github.com/personium/setup-vagrant.git
+    ```
 
-	```bash
-	$ git clone https://github.com/personium/setup-vagrant.git
-	```
+1. Change to setup-vagrant directory under the local repository you cloned, and run vagrant up.  
+\* Sometimes tomcat will failed to start because it takes more than 60 seconds. But tomcat is usually running, so please ignore the failure and go to the next step.  
+\* If your network is behind a proxy server, please configure the proxy settings for vagrant and Ansible before running `vagrant up`.  
+[How to Setting in proxy environment](How_to_Setting_in_proxy_environment.md "")  
 
-4. Change to setup-vagrant directory under the local repository you cloned, and run vagrant up.
+    ```bash
+    $ cd ./setup-vagrant
+    $ vagrant up
+    ```
 
-   \* It sometimes happens that tomcat's start is failed because it takes more than 60 seconds. But tomcat is usually running, so please go to next step ignoring that.
+1. Verify that your Personium is up and running.  
+    1. Execute the following command  
 
-	```bash
-	$ cd ./setup-vagrant
-	$ vagrant up
-	```
+        ```bash
+        $ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -s
+        ```
 
-	\* If your network is under a proxy server, please do proxy settings for vagrant and Ansible before running `vagrant up`.
-	[How to Setting in proxy environment](How_to_Setting_in_proxy_environment.md ""),
+    1. If Personium works fine, 201 response is returned as below. a cell is successfully created!  
 
-5. Verify your Personium is up and running.
+        ```bash
+        HTTP/1.1 201 Created
+        Date: Mon, 26 Jan 2015 12:32:13 GMT
+        Content-Type: application/json
+        Transfer-Encoding: chunked
+        Connection: keep-alive
+        Access-Control-Allow-Origin: *
+        DataServiceVersion: 2.0
+        ETag: W/"1-1422275532964"
+        Location: http://localhost:1210/__ctl/Cell('sample')
+        X-Dc-Version: 1.3.20
+        Server: PCS
 
-	```bash
-	$ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -s
-	```
+        {"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
+        ```
+    
 
-	If Personium works fine , 201 response is returned as below. Cell is successfully created!
+#### Information about the Personium Unit  
+If you follow the above procedures, your Personium Unit is constructed with the following specifications.
 
-	```bash
-	HTTP/1.1 201 Created
-	Date: Mon, 26 Jan 2015 12:32:13 GMT
-	Content-Type: application/json
-	Transfer-Encoding: chunked
-	Connection: keep-alive
-	Access-Control-Allow-Origin: *
-	DataServiceVersion: 2.0
-	ETag: W/"1-1422275532964"
-	Location: http://localhost:1210/__ctl/Cell('sample')
-	X-Dc-Version: 1.3.20
-	Server: PCS
+##### Personium Unit  
 
-	{"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
-	```
-	
+* parameters  
 
-#### Information of Personium that you set up
+    |Parameter    |                    |
+    |:------------|--------------------|
+    |VM Memory    |2048           |
+    |FQDN         |localhost           |
+    |PORT         |1210                |
+    |UnitUserToken|example_master_token|
 
-If you set up Personium in above procedure , Personium is constructed as below.
+* Personium modules  
 
-##### About local Personium
-
-* parameters
-
-	|parameter    |                    |
-	|:------------|--------------------|
-	|VM Memory       |2048           |
-	|FQDN         |localhost           |
-	|PORT         |1210                |
-	|UnitUserToken|example_master_token|
-
-* Personium modules
-
-	Following Personium modules are deployed on app server.
-
-	|module           |
-	|:----------------|
-	|personium-core   |
-	|personium-engine |
+    |Module name      |
+    |:----------------|
+    |personium-core   |
+    |personium-engine |
 
 
-##### About OS and Middleware on VM
+##### OS and Middleware on VM
 
-* OS
+* OS  
+CentOS 7.2 x86_64
 
-	CentOS 7.2 x86_64
-
-* Middleware
+* Middleware  
 
     |Category       | Name           |Version       |                   |
     |:--------------|:---------------|-------------:|:------------------|
@@ -113,4 +106,4 @@ If you set up Personium in above procedure , Personium is constructed as below.
     | logback       | logback        |        1.0.3 | --                |
     |               | slf4j          |        1.6.4 | --                |
     | memcached     | memcached      |       1.4.21 | cache             |
-    | elasticsearch | elasticsearch  |        2.4.1 | db&sarch engine   |
+    | elasticsearch | elasticsearch  |        2.4.1 | db & search engine|
