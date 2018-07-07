@@ -24,7 +24,6 @@ Ok, let's start to set up Personium!
 1. Download and install Vagrant. ([Download page](https://www.vagrantup.com/downloads.html))  
 
 1. Clone this repository. (https://github.com/personium/setup-vagrant.git)  
-\* In case of Windows machine, please set core.autocrlf to false in your git client's config so there are shell scripts.  
 \* If Japanese is included in the path of the git clone directory, vagrant up commnd will fail. **Please do not include Japanese in the path.**
 
     ```bash
