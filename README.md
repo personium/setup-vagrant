@@ -43,7 +43,7 @@ Ok, let's start to set up Personium!
     1. Execute the following command  
 
         ```bash
-        $ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -s
+        $ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -sS -k
         ```
 
     1. If Personium works fine, 201 response is returned as below. a cell is successfully created!  
