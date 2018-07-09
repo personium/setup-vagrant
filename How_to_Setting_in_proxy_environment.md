@@ -1,3 +1,5 @@
+# How to Setting in proxy environment
+
 ## Introduction
 
 This manual explains the settings for running Vagrant in a proxy environment.
@@ -12,7 +14,7 @@ This manual explains the settings for running Vagrant in a proxy environment.
 	$ vagrant plugin install vagrant-proxyconf
 	```
 
-2. Enable your proxy setting in your Vagrantfile. Below is an example how to setup the proxy.
+1. Enable your proxy setting in your Vagrantfile. Below is an example how to setup the proxy.
 
 	```bash:Vagrantfile
 	 if Vagrant.has_plugin?("vagrant-proxyconf")
@@ -31,9 +33,9 @@ This manual explains the settings for running Vagrant in a proxy environment.
 
    ```
    - name: deploy maven's setting.xml
-     template: src=./resource/common/settings.xml.j2 dest=/root/.m2/settings.xml owner=root group=root mode=0644
+     template: src=./resource/bastion/tmp/settings.xml.j2 dest=/root/.m2/settings.xml owner=root group=root mode=0644
    ```
-   \* If you are using an authentication proxy, modify ./ansible/resource/bastion/settings.xml.j2. 
+   \* If you are using an authentication proxy, modify ./ansible/resource/bastion/tmp/settings.xml.j2. 
    Uncomment the following comment.
 
    ```
