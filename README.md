@@ -1,5 +1,4 @@
-# Try Personium on your machine
-====
+# Try Personium on your machine  
 
 These procedures set up a Personium Unit on 1VM using vagrant + ansible.  
 
