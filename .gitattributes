@@ -10,6 +10,13 @@
 *.yml text eol=lf
 *.cfg text eol=lf
 *.services text eol=lf
+*.j2 text eol=lf
+*.properties text eol=lf
+*.policy text eol=lf
+*.service text eol=lf
+*.key text eol=lf
+*.cf text eol=lf
+bashrc text eol=lf
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary
