@@ -7,12 +7,10 @@ You can easily set up on your machine and try to explore the Personium APIs.
 #### Confirmed environment  
 The setup procedures described here are tested in the following environment.
 
-* Version  
-    * Windows 8.1 x64  
-    * VirtualBox 5.2.8  
-    * Vagrant 2.1.0  
-* Host machine spec  
-    * RAM 8 GB  
+| Environment| Windows        | VirtualBox  | Vagrant | Installation time |
+|:-----------|:---------------|:------------|:--------|:---------------|
+| 1          | 8.1 x64 RAM 8GB | 5.2.8 | 2.1.0 | 7 hrs |
+| 2          | 10 x64 RAM 16GB | 5.2.14 | 2.1.2 | 2 hrs
 
 #### Setup procedures  
 
@@ -30,6 +28,7 @@ Ok, let's start to set up Personium!
     ```
 
 1. Change to setup-vagrant directory under the local repository you cloned, and run vagrant up.  
+\* Depending on your network bandwidth and CPU power, this procedure may take at least 2 hours to complete.  
 \* Sometimes tomcat will failed to start because it takes more than 60 seconds. But tomcat is usually running, so please ignore the failure and go to the next step.  
 \* If your network is behind a proxy server, please configure the proxy settings for vagrant and Ansible before running `vagrant up`.  
 [How to Setting in proxy environment](How_to_Setting_in_proxy_environment.md "")  
