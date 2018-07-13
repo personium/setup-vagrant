@@ -21,14 +21,17 @@
     - ./group_vars/nfs.yml
     - ./group_vars/ap.yml
     - ./group_vars/web.yml
+    - ./group_vars/ex.yml
   tasks:
     - include: ./tasks/common/config_cron.yml
     - include: ./es.yml
     - include: ./nfs.yml
     - include: ./ap.yml
     - include: ./web.yml
+    - include: ./tasks/bastion/init_personium_ex.yml
   handlers:
     - include: ./handlers/common/restart_firewalld.yml
+    - include: ./handlers/ap/restart_tomcat.yml
     - include: ./handlers/web/reload_nginx.yml
 
 - hosts: tag_ServerType_bastion

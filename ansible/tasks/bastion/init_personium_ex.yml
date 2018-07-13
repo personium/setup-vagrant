@@ -1,0 +1,160 @@
+# Copyright FUJITSU LIMITED 2018.
+
+- name: git clone plugin sample repo
+  git:
+    repo: https://github.com/personium/personium-plugin-sample.git
+    dest: /tmp/personium-plugin-sample
+    version: "{{ personium_plugin_sample_version }}"
+    depth: 1
+    force: yes
+  register: gitclone
+
+- block:
+  - name: build plugin sample
+    command: /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
+    args:
+      chdir: /tmp/personium-plugin-sample
+    environment:
+      JAVA_HOME: /opt/jdk
+    register: result
+    until: result.stdout.find('BUILD SUCCESS') != -1
+    retries: 3
+    delay: 20
+
+  - name: deploy plugin sample
+    command: cp /tmp/personium-plugin-sample/target/personium-plugin-sample.jar /personium/personium-core/plugins/personium-plugin-sample.jar
+  when: gitclone.changed
+
+- name: git clone ex httpclient repo
+  git:
+    repo: https://github.com/personium/personium-ex-httpclient.git
+    dest: /tmp/personium-ex-httpclient
+    version: "{{ personium_ex_httpclient_version }}"
+    depth: 1
+    force: yes
+  register: gitclone
+
+- block:
+  - name: build ex httpclient
+    command: /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
+    args:
+      chdir: /tmp/personium-ex-httpclient
+    environment:
+      JAVA_HOME: /opt/jdk
+    register: result
+    until: result.stdout.find('BUILD SUCCESS') != -1
+    retries: 3
+    delay: 20
+
+  - name: deploy ex httpclient
+    command: cp /tmp/personium-ex-httpclient/target/personium-ex-httpclient.jar /personium/personium-engine/extensions/personium-ex-httpclient.jar
+  when: gitclone.changed
+
+- name: git clone ex mailsender repo
+  git:
+    repo: https://github.com/personium/personium-ex-mailsender.git
+    dest: /tmp/personium-ex-mailsender
+    version: "{{ personium_ex_mailsender_version }}"
+    depth: 1
+    force: yes
+  register: gitclone
+
+- block:
+  - name: build ex mailsender
+    command: /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
+    args:
+      chdir: /tmp/personium-ex-mailsender
+    environment:
+      JAVA_HOME: /opt/jdk
+    register: result
+    until: result.stdout.find('BUILD SUCCESS') != -1
+    retries: 3
+    delay: 20
+
+  - name: deploy ex mailsender
+    command: cp /tmp/personium-ex-mailsender/target/personium-ex-mailsender.jar /personium/personium-engine/extensions/personium-ex-mailsender.jar
+  when: gitclone.changed
+
+- name: git clone ex slack messanger repo
+  git:
+    repo: https://github.com/personium/personium-ex-slack-messenger.git
+    dest: /tmp/personium-ex-slack-messenger
+    version: "{{ personium_ex_slack_messenger_version }}"
+    depth: 1
+    force: yes
+  register: gitclone
+
+- block:
+  - name: build ex slack messanger
+    command: /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
+    args:
+      chdir: /tmp/personium-ex-slack-messenger
+    environment:
+      JAVA_HOME: /opt/jdk
+    register: result
+    until: result.stdout.find('BUILD SUCCESS') != -1
+    retries: 3
+    delay: 20
+
+  - name: deploy ex slack messanger
+    command: cp /tmp/personium-ex-slack-messenger/target/personium-ex-slack.jar /personium/personium-engine/extensions/personium-ex-slack.jar
+  when: gitclone.changed
+
+- name: git clone ex ew services repo
+  git:
+    repo: https://github.com/personium/personium-ex-ew-services.git
+    dest: /tmp/personium-ex-ew-services
+    version: "{{ personium_ex_ew_services_version }}"
+    depth: 1
+    force: yes
+  register: gitclone
+
+- block:
+  - name: build ex ew services
+    command: /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
+    args:
+      chdir: /tmp/personium-ex-ew-services
+    environment:
+      JAVA_HOME: /opt/jdk
+    register: result
+    until: result.stdout.find('BUILD SUCCESS') != -1
+    retries: 3
+    delay: 20
+
+  - name: deploy ex ew services
+    command: cp /tmp/personium-ex-ew-services/target/personium-ex-ew-services.jar /personium/personium-engine/extensions/personium-ex-ew-services.jar
+  when: gitclone.changed
+
+# Install Unit Manager Application
+
+- name: git clone app unit manager repo
+  git:
+    repo: https://github.com/personium/app-uc-unit-manager.git
+    dest: /tmp/app-uc-unit-manager
+    version: "{{ personium_app_unit_manager_version }}"
+    depth: 1
+    force: yes
+  register: gitclone
+
+- block:
+  - name: Setup Unit-Manager login.js
+    replace: dest=/tmp/app-uc-unit-manager/src/js/login.js regexp="let launchUrl = 'https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light/environment.html'" replace="let launchUrl = 'https://localhost:1210/Unit-Manager/environment.html'" backup=yes
+
+  - name: Setup Unit-Manager login.js
+    replace: dest=/tmp/app-uc-unit-manager/src/js/login.js regexp="'&contextRoot=https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light'" replace="'&contextRoot=https://localhost:1210/Unit-Manager'" 
+  
+  - name: Setup Unit-Manager snapshot.js
+    replace: dest=/tmp/app-uc-unit-manager/src/htmls/en/snapshot.html regexp="script type="text/javascript" src="https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light-debug/js/snapshot.js"" replace="scrscript type="text/javascript" src="https://localhost:1210/Unit-Manager/js/snapshot.js""
+  
+  - name: Setup Unit-Manager snapshot.js
+    replace: dest=/tmp/app-uc-unit-manager/src/htmls/en/snapshot.html regexp="script type="text/javascript" src="https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light-debug/js/fileDownload.js"" replace="script type="text/javascript" src="https://localhost:1210/Unit-Manager/js/fileDownload.js""
+  
+  - name: Setup Unit-Manager default Unit URL
+    replace: dest=/tmp/app-uc-unit-manager/src/login.html regexp="<input type="text" autocomplete="off" placeholder="Uniturl"" replace="<input type="text" autocomplete="off" value="https://localhost:1210/""
+
+  - name: Create /opt/nginx/html/Unit-Manager
+    file: state=directory path=/opt/nginx/html/Unit-Manager owner=root group=root mode=0755
+
+  - name: deploy app unit manager repo
+    copy: src=/tmp/app-uc-unit-manager/src/ dest=/opt/nginx/html/Unit-Manager/ owner=root group=root mode=755
+  when: gitclone.changed
