@@ -152,9 +152,18 @@
   - name: Setup Unit-Manager default Unit URL
     replace: dest=/tmp/app-uc-unit-manager/src/login.html regexp="<input type="text" autocomplete="off" placeholder="Uniturl"" replace="<input type="text" autocomplete="off" value="https://localhost:1210/""
 
+  - name: Setup /personium/personium-core/conf/18888/personium-unit-config.properties
+    replace: dest=/personium/personium-core/conf/18888/personium-unit-config.properties regexp="io.personium.core.unitUser.issuers=https://localhost/UnitUserCell/ https://localhost/unitadmin/" replace="io.personium.core.unitUser.issuers=https://localhost/UnitUserCell/ https://localhost:1210/unitadmin/"
+
   - name: Create /opt/nginx/html/Unit-Manager
     file: state=directory path=/opt/nginx/html/Unit-Manager owner=root group=root mode=0755
 
   - name: deploy app unit manager repo
     copy: src=/tmp/app-uc-unit-manager/src/ dest=/opt/nginx/html/Unit-Manager/ owner=root group=root mode=755
   when: gitclone.changed
+
+- name: restart tomcat
+  systemd: name=tomcat state=restart
+
+- name: restart nginx
+  systemd: name=nginx state=restart
