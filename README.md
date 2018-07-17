@@ -39,6 +39,11 @@ Ok, let's start to set up Personium!
     $ vagrant up
     ```
 
+1. Verify that your Personium Unit-Manager is up and running.
+    1. Access the following URL from the browser. 
+　    　https://localhost:1210/Unit-Manager/login.html  
+        \* Please refer to the link for [Unit-Manager](https://github.com/personium/app-uc-unit-manager "").。
+
 1. Verify that your Personium is up and running.  
     1. Execute the following command  
 
@@ -63,7 +68,7 @@ Ok, let's start to set up Personium!
 
         {"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
         ```
-    
+
 
 #### Information about the Personium Unit  
 If you follow the above procedures, your Personium Unit is constructed with the following specifications.
@@ -74,18 +79,38 @@ If you follow the above procedures, your Personium Unit is constructed with the 
 
     |Parameter    |                    |
     |:------------|--------------------|
-    |VM Memory    |2048           |
+    |VM Memory    |2048                |
     |FQDN         |localhost           |
     |PORT         |1210                |
     |UnitUserToken|example_master_token|
 
 * Personium modules  
 
-    |Module name      |
-    |:----------------|
-    |personium-core   |
-    |personium-engine |
+    |Module name                    |
+    |:------------------------------|
+    |personium-core                 |
+    |personium-engine               |
 
+* Personium plugin modules  
+
+    |Module name                    |
+    |:------------------------------|
+    |personium-plugin-sample        |
+
+* Personium ex modules  
+
+    |Module name                    |
+    |:------------------------------|
+    |personium-ex-mailsender        |
+    |personium-ex-slack-messenger   |
+    |personium-ex-ew-services       |
+    |personium-ex-httpclient        |
+
+* Personium app modules
+
+    |Module name                    |
+    |:------------------------------|
+    |app-uc-unit-manager            |
 
 ##### OS and Middleware on VM
 
