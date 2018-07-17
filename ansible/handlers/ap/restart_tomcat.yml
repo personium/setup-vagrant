@@ -1,4 +1,0 @@
-# Copyright FUJITSU LIMITED 2018.
-
-- name: restart tomcat
-  systemd: name=tomcat state=reloaded
