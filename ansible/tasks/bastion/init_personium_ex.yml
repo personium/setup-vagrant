@@ -163,7 +163,7 @@
   when: gitclone.changed
 
 - name: restart tomcat
-  systemd: name=tomcat state=restart
+  systemd: name=tomcat state=restarted
 
 - name: restart nginx
-  systemd: name=nginx state=restart
+  systemd: name=nginx state=restarted
