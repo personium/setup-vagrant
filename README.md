@@ -10,7 +10,7 @@ The setup procedures described here are tested in the following environment.
 | Environment| Windows        | VirtualBox  | Vagrant | Installation time |
 |:-----------|:---------------|:------------|:--------|:---------------|
 | 1          | 8.1 x64 RAM 8GB | 5.2.8 | 2.1.0 | 7 hrs |
-| 2          | 10 x64 RAM 16GB | 5.2.14 | 2.1.2 | 2 hrs
+| 2          | 10 x64 RAM 16GB | 5.2.14 | 2.1.2 | 2 hrs |  
 
 #### Setup procedures  
 
@@ -38,6 +38,11 @@ Ok, let's start to set up Personium!
     $ vagrant up
     ```
 
+1. Verify that your Personium Unit-Manager is up and running.
+    1. Access the following URL from the browser. 
+　    　https://localhost:1210/Unit-Manager/login.html  
+        \* Please refer to the link for [Unit-Manager](https://github.com/personium/app-uc-unit-manager "").。
+
 1. Verify that your Personium is up and running.  
     1. Execute the following command  
 
@@ -62,7 +67,11 @@ Ok, let's start to set up Personium!
 
         {"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
         ```
-    
+
+1. If you want ssh connection to the virtual server created by Vagrant, execute the following command.  
+   ```
+   $ vagrant ssh
+   ```
 
 #### Information about the Personium Unit  
 If you follow the above procedures, your Personium Unit is constructed with the following specifications.
@@ -73,18 +82,38 @@ If you follow the above procedures, your Personium Unit is constructed with the 
 
     |Parameter    |                    |
     |:------------|--------------------|
-    |VM Memory    |2048           |
+    |VM Memory    |2048                |
     |FQDN         |localhost           |
     |PORT         |1210                |
     |UnitUserToken|example_master_token|
 
 * Personium modules  
 
-    |Module name      |
-    |:----------------|
-    |personium-core   |
-    |personium-engine |
+    |Module name                    |
+    |:------------------------------|
+    |[personium-core](https://github.com/personium/personium-core)                 |
+    |[personium-engine](https://github.com/personium/personium-engine)               |
 
+* Personium plugin modules  
+
+    |Module name                    |
+    |:------------------------------|
+    |[personium-plugin-sample](https://github.com/personium/personium-plugin-sample)        |
+
+* Personium ex modules  
+
+    |Module name                    |
+    |:------------------------------|
+    |[personium-ex-mailsender](https://github.com/personium/personium-ex-mailsender)        |
+    |[personium-ex-slack-messenger](https://github.com/personium/personium-ex-slack-messenger)   |
+    |[personium-ex-ew-services](https://github.com/personium/personium-ex-ew-services)       |
+    |[personium-ex-httpclient](https://github.com/personium/personium-ex-httpclient)        |
+
+* Personium app modules
+
+    |Module name                    |
+    |:------------------------------|
+    |[app-uc-unit-manager](https://github.com/personium/app-uc-unit-manager)            |
 
 ##### OS and Middleware on VM
 
