@@ -7,8 +7,8 @@
     creates: /root/ansible/resource/ap/opt/tomcat/webapps/personium-{{ build_mod }}.war
   environment:
     JAVA_HOME: /opt/jdk
-  register: mvn-result
-  untile: mvn-result.stdout.find('BUILD SUCCESSFUL') != -1
+  register: result
+  until: result.stdout.find('BUILD SUCCESS') != -1 or result.stdout.find('skipped, since') != -1
   retries: 3
   delay: 20
 
