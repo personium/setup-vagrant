@@ -38,16 +38,41 @@ Ok, let's start to set up Personium!
     $ vagrant up
     ```
 
+#### Confirm Personium
+
+1. Log in to the virtual server and check the information of personium administration account.
+
+   ```console
+   $ vagrant ssh
+   $ sudo su -
+   # cat /root/ansible/unitadmin_account
+   unitadmin {password}
+   # exit
+   $ exit
+   ```
+
 1. Verify that your Personium Unit-Manager is up and running.
-    1. Access the following URL from the browser. 
+    1. Access the following URL from the browser.   
 　    　https://localhost:1210/Unit-Manager/login.html  
-        \* Please refer to the link for [Unit-Manager](https://github.com/personium/app-uc-unit-manager "").。
+        \* Please refer to the link for [Unit-Manager](https://github.com/personium/app-uc-unit-manager "").  
+
+    1. Enter the following on the login page and click the "sign in" button.  
+       * Unit Cell Name : unitadmin  
+       * Username       : unitadmin  
+       * Password       : {password}  
+       \* For {password}, enter the password confirmed in the above "1."
 
 1. Verify that your Personium is up and running.  
     1. Execute the following command  
 
         ```bash
         $ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -sS -k
+        ```
+
+        \* To execute the API on the virtual server, execute the command as follows.　　
+
+        ```bash
+        $ curl -X POST "https://localhost/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -sS -k
         ```
 
     1. If Personium works fine, 201 response is returned as below. a cell is successfully created!  
@@ -68,10 +93,6 @@ Ok, let's start to set up Personium!
         {"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
         ```
 
-1. If you want ssh connection to the virtual server created by Vagrant, execute the following command.  
-   ```
-   $ vagrant ssh
-   ```
 
 #### Information about the Personium Unit  
 If you follow the above procedures, your Personium Unit is constructed with the following specifications.

@@ -11,19 +11,38 @@ This manual explains the settings for running Vagrant in a proxy environment.
 1. Install _vagrant-proxyconf_ plugin. (http://weblabo.oscasierra.net/vagrant-proxyconf/)
 
 	```bash
+  $ set http_proxy=http://{proxy_ip}:{proxy_port}
+  $ set https_proxy=http://{proxy_ip}:{proxy_port}
+	$ vagrant plugin install vagrant-proxyconf
+	```  
+\* If you are using an authentication proxy, specify the user name and password in the Proxy setting as shown below.
+
+	```bash
+  $ set http_proxy=http://{username}:{password}@{proxy_ip}:{proxy_port}
+  $ set https_proxy=http://{username}:{password}@{proxy_ip}:{proxy_port}
 	$ vagrant plugin install vagrant-proxyconf
 	```
+
 
 1. Enable your proxy setting in your Vagrantfile. Below is an example how to setup the proxy.
 
 	```bash:Vagrantfile
 	 if Vagrant.has_plugin?("vagrant-proxyconf")
-	   config.proxy.http = "http://username:password@host:port/"
-	   config.proxy.https = "http://username:password@host:port/"
+	   config.proxy.http = "http://{proxy_ip}:{proxy_port}/"
+	   config.proxy.https = "http://{proxy_ip}:{proxy_port}/"
 	   config.proxy.no_proxy = "localhost,127.0.0.1"
 	 end
 	```
 
+\* If you are using an authentication proxy, specify the user name and password in the Proxy setting as shown below.
+
+	```bash:Vagrantfile
+	 if Vagrant.has_plugin?("vagrant-proxyconf")
+	   config.proxy.http = "http://{username}:{password}@{proxy_ip}:{proxy_port}/"
+	   config.proxy.https = "http://{username}:{password}@{proxy_ip}:{proxy_port}/"
+	   config.proxy.no_proxy = "localhost,127.0.0.1"
+	 end
+	```
 
 ### Part 2. Proxy setup for apache maven.
 
