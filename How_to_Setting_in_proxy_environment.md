@@ -11,15 +11,16 @@ This manual explains the settings for running Vagrant in a proxy environment.
 1. Install _vagrant-proxyconf_ plugin. (http://weblabo.oscasierra.net/vagrant-proxyconf/)
 
 	```bash
-  $ set http_proxy=http://{proxy_ip}:{proxy_port}
-  $ set https_proxy=http://{proxy_ip}:{proxy_port}
+	$ set http_proxy=http://{proxy_ip}:{proxy_port}
+	$ set https_proxy=http://{proxy_ip}:{proxy_port}
 	$ vagrant plugin install vagrant-proxyconf
 	```  
-\* If you are using an authentication proxy, specify the user name and password in the Proxy setting as shown below.
+
+	\* If you are using an authentication proxy, specify the user name and password in the Proxy setting as shown below.  
 
 	```bash
-  $ set http_proxy=http://{username}:{password}@{proxy_ip}:{proxy_port}
-  $ set https_proxy=http://{username}:{password}@{proxy_ip}:{proxy_port}
+	$ set http_proxy=http://{username}:{password}@{proxy_ip}:{proxy_port}
+	$ set https_proxy=http://{username}:{password}@{proxy_ip}:{proxy_port}
 	$ vagrant plugin install vagrant-proxyconf
 	```
 
@@ -34,7 +35,7 @@ This manual explains the settings for running Vagrant in a proxy environment.
 	 end
 	```
 
-\* If you are using an authentication proxy, specify the user name and password in the Proxy setting as shown below.
+	\* If you are using an authentication proxy, specify the user name and password in the Proxy setting as shown below.
 
 	```bash:Vagrantfile
 	 if Vagrant.has_plugin?("vagrant-proxyconf")
