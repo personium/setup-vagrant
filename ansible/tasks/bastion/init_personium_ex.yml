@@ -138,19 +138,19 @@
 
 - block:
   - name: Setup Unit-Manager login.js
-    replace: dest=/tmp/app-uc-unit-manager/src/js/login.js regexp="let launchUrl = 'https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light/environment.html'" replace="let launchUrl = 'https://localhost:1210/Unit-Manager/environment.html'" backup=yes
+    replace: dest=/tmp/app-uc-unit-manager/src/html/js/login.js regexp="let launchUrl = 'https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light/environment.html'" replace="let launchUrl = 'https://localhost:1210/Unit-Manager/environment.html'" backup=yes
 
   - name: Setup Unit-Manager login.js
-    replace: dest=/tmp/app-uc-unit-manager/src/js/login.js regexp="'&contextRoot=https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light'" replace="'&contextRoot=https://localhost:1210/Unit-Manager'" 
+    replace: dest=/tmp/app-uc-unit-manager/src/html/js/login.js regexp="'&contextRoot=https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light'" replace="'&contextRoot=https://localhost:1210/Unit-Manager'" 
   
   - name: Setup Unit-Manager snapshot.js
-    replace: dest=/tmp/app-uc-unit-manager/src/htmls/en/snapshot.html regexp="script type="text/javascript" src="https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light-debug/js/snapshot.js"" replace="scrscript type="text/javascript" src="https://localhost:1210/Unit-Manager/js/snapshot.js""
+    replace: dest=/tmp/app-uc-unit-manager/src/html/templates/en/snapshot.html regexp="script type="text/javascript" src="https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light-debug/js/snapshot.js"" replace="scrscript type="text/javascript" src="https://localhost:1210/Unit-Manager/js/snapshot.js""
   
   - name: Setup Unit-Manager snapshot.js
-    replace: dest=/tmp/app-uc-unit-manager/src/htmls/en/snapshot.html regexp="script type="text/javascript" src="https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light-debug/js/fileDownload.js"" replace="script type="text/javascript" src="https://localhost:1210/Unit-Manager/js/fileDownload.js""
+    replace: dest=/tmp/app-uc-unit-manager/src/html/templates/en/snapshot.html regexp="script type="text/javascript" src="https://demo.personium.io/app-uc-unit-manager/__/unitmgr-light-debug/js/fileDownload.js"" replace="script type="text/javascript" src="https://localhost:1210/Unit-Manager/js/fileDownload.js""
   
   - name: Setup Unit-Manager default Unit URL
-    replace: dest=/tmp/app-uc-unit-manager/src/login.html regexp="<input type="text" autocomplete="off" placeholder="Uniturl"" replace="<input type="text" autocomplete="off" value="https://localhost:1210/""
+    replace: dest=/tmp/app-uc-unit-manager/src/html/login.html regexp="<input type="text" autocomplete="off" placeholder="Uniturl"" replace="<input type="text" autocomplete="off" value="https://localhost:1210/""
 
   - name: Setup /personium/personium-core/conf/18888/personium-unit-config.properties
     replace: dest=/personium/personium-core/conf/18888/personium-unit-config.properties regexp="io.personium.core.unitUser.issuers=https://localhost/UnitUserCell/ https://localhost/unitadmin/" replace="io.personium.core.unitUser.issuers=https://localhost/UnitUserCell/ https://localhost:1210/unitadmin/"
@@ -159,7 +159,7 @@
     file: state=directory path=/opt/nginx/html/Unit-Manager owner=root group=root mode=0755
 
   - name: deploy app unit manager repo
-    copy: src=/tmp/app-uc-unit-manager/src/ dest=/opt/nginx/html/Unit-Manager/ owner=root group=root mode=755
+    copy: src=/tmp/app-uc-unit-manager/src/html/ dest=/opt/nginx/html/Unit-Manager/ owner=root group=root mode=755
   when: gitclone.changed
 
 - name: restart tomcat
