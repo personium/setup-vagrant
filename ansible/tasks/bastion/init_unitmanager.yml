@@ -1,0 +1,9 @@
+# Copyright FUJITSU LIMITED 2018.
+
+- name: Deploy /tmp/setup-unitmgr.sh
+  template: src=./resource/bastion/tmp/setup-unitmgr.sh.j2 dest=/tmp/setup-unitmgr.sh mode=744
+
+- name: Execute /tmp/setup-unitmgr.sh
+  shell: /bin/sh /tmp/setup-unitmgr.sh > /tmp/setup-unitmgr.log
+  register: init_unitmgr_result
+  failed_when: "init_unitmgr_result.rc != 0"
