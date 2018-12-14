@@ -32,6 +32,7 @@ Ok, let's start to set up Personium!
 \* Sometimes tomcat will failed to start because it takes more than 60 seconds. But tomcat is usually running, so please ignore the failure and go to the next step.  
 \* If your network is behind a proxy server, please configure the proxy settings for vagrant and Ansible before running `vagrant up`.  
 [How to Setting in proxy environment](How_to_Setting_in_proxy_environment.md "")  
+**Make sure that port 443/tcp is not used on the PC and execute it.**  
 
     ```bash
     $ cd ./setup-vagrant
@@ -53,11 +54,11 @@ Ok, let's start to set up Personium!
 
 1. Verify that your Personium Unit-Manager is up and running.
     1. Access the following URL from the browser.   
-　    　https://localhost:1210/Unit-Manager/login.html  
+　    　https://localhost/app-uc-unit-manager/__/html/login.html  
         \* Please refer to the link for [Unit-Manager](https://github.com/personium/app-uc-unit-manager "").  
 
     1. Enter the following on the login page and click the "sign in" button.  
-       * Unit Cell Name : unitadmin  
+       * Login URL      : https://localhost/unitadmin/  
        * Username       : unitadmin  
        * Password       : {password}  
        \* For {password}, enter the password confirmed in the above "1."
@@ -66,7 +67,7 @@ Ok, let's start to set up Personium!
     1. Execute the following command  
 
         ```bash
-        $ curl -X POST "https://localhost:1210/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -sS -k
+        $ curl -X POST "https://localhost/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -sS -k
         ```
 
         \* To execute the API on the virtual server, execute the command as follows.　　
@@ -86,11 +87,11 @@ Ok, let's start to set up Personium!
         Access-Control-Allow-Origin: *
         DataServiceVersion: 2.0
         ETag: W/"1-1422275532964"
-        Location: http://localhost:1210/__ctl/Cell('sample')
+        Location: http://localhost/__ctl/Cell('sample')
         X-Dc-Version: 1.3.20
         Server: PCS
 
-        {"d":{"results":{"__metadata":{"uri":"http:\/\/localhost:1210\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
+        {"d":{"results":{"__metadata":{"uri":"http:\/\/localhost\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
         ```
 
 
@@ -105,7 +106,7 @@ If you follow the above procedures, your Personium Unit is constructed with the 
     |:------------|--------------------|
     |VM Memory    |2048                |
     |FQDN         |localhost           |
-    |PORT         |1210                |
+    |PORT         |443                 |
     |UnitUserToken|example_master_token|
 
 * Personium modules  
