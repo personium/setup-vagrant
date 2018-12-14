@@ -41,3 +41,9 @@
     - ./group_vars/bastion.yml
   tasks:
     - include: ./tasks/bastion/init_servicemanager.yml
+
+- hosts: tag_ServerType_personium
+  connection: local
+  sudo: yes
+  tasks:
+    - include: ./tasks/bastion/init_unitmanager.yml

@@ -1,0 +1,96 @@
+#!/bin/sh
+#
+# personium
+# Copyright 2018 FUJITSU LIMITED
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Initial setup script of Unit-manager
+
+# Environmental setting
+DOMAIN={{ base_url }}
+CELL_NAME=app-uc-unit-manager
+USERINFO=`sed -n 1p /root/ansible/unitadmin_account`
+ACCOUNT=`echo ${USERINFO} | cut -d' ' -f1`
+PASSWORD=`echo ${USERINFO} | cut -d' ' -f2`
+SPECIFIED_ACCESS_TOKEN=`curl "${DOMAIN}/unitadmin/__token" -X POST -d "grant_type=password&username=${ACCOUNT}&password=${PASSWORD}&p_target=${DOMAIN}" -H "Content-Type: application/x-www-form-urlencoded" -k`
+
+# If an access token is specified, use that token
+# If not specified, use the latest version for acquisition
+if [ "" != "${SPECIFIED_ACCESS_TOKEN}" ]; then
+  ACCESSTOKEN=`echo $SPECIFIED_ACCESS_TOKEN | sed -e 's/{/\n/g' | sed -e 's/}/\n/g' | sed -e 's/,/\n,/g' | grep access_token | sed -e 's/"//g' | sed -e 's/access_token://g'`
+else
+  echo "Please specify access token"
+fi
+
+function check_response() {
+  STATUS=${1}
+  OPERATION=${2}
+  RESPONSE_CODE=`echo "${CURL_RESULT}" | /bin/grep 'status:'`
+  if [ "${RESPONSE_CODE}" != "status:${STATUS}" ]; then
+    echo "${OPERATION}faild."
+    exit 2
+  fi
+}
+
+#Download unit-manager.zip
+wget -O /tmp/unit-manager.zip https://personium.io/mvnrepo/unitmanager/unit-manager.zip
+
+#Create unit-manager Cell
+echo "######  Create unit-manager Cell  ######"
+CURL_RESULT=`curl -w "\nstatus:%{http_code}\n" $DOMAIN/__ctl/Cell -X POST -H "Authorization: Bearer $ACCESSTOKEN" -H "Accept: application/json" -d "{\"Name\":\"$CELL_NAME\"}" -k -i -s`
+echo "$CURL_RESULT"
+check_response 201 "Unit-manager Cell created"
+
+#Upload unit-manager.zip
+echo "######  Upload unit-manager.zip  ######"
+CURL_RESULT=`curl -w "\nstatus:%{http_code}\n" $DOMAIN/$CELL_NAME/__snapshot/unit-manager.zip -X PUT -H "Authorization: Bearer $ACCESSTOKEN" -H "Accept: application/json" -T "/tmp/unit-manager.zip" -k -i -s`
+echo "$CURL_RESULT"
+check_response 201 "Unit-manager.zip uploaded"
+
+#Import unit-manager Cell Data
+echo "######  Import unit-manager Cell Data  ######"
+CURL_RESULT=`curl -w "\nstatus:%{http_code}\n" $DOMAIN/$CELL_NAME/__import -X POST -H "Authorization: Bearer $ACCESSTOKEN" -d "{\"Name\":\"unit-manager\"}" -k -i -s`
+echo "$CURL_RESULT"
+check_response 202 "Unit-manager Cell Data imported"
+
+while :
+do
+  #Progress of import unit-manager Cell
+  echo "######  Progress of import unit-manager Cell  ######"
+  CURL_RESULT=`curl -w "\nstatus:%{http_code}\n" "$DOMAIN/$CELL_NAME/__import" -X GET -H "Authorization: Bearer $ACCESSTOKEN" -H "Accept: application/json" -k -i -s`
+  echo "$CURL_RESULT"
+  check_response 200 "Progress of import unit-manager Cell"
+
+  if echo "$CURL_RESULT" | grep "ready" >/dev/null; then
+    break
+  fi
+
+  sleep 5
+done
+
+
+#Download login.js
+echo "######  Download login.js  ######"
+CURL_RESULT=`curl -w "\nstatus:%{http_code}\n" $DOMAIN/$CELL_NAME/__/html/js/login.js -X GET -H "Authorization: Bearer $ACCESSTOKEN" -o "/tmp/login.js" -k -s`
+echo "$CURL_RESULT"
+
+#Edit login.js
+sed -i -e "s/demo.personium.io/localhost/g" /tmp/login.js
+
+#Upload login.js
+echo "######  Upload login.js  ######"
+CURL_RESULT=`curl -w "\nstatus:%{http_code}\n" $DOMAIN/$CELL_NAME/__/html/js/login.js -X PUT -H "Authorization: Bearer $ACCESSTOKEN" -H "Accept: application/json" -T "/tmp/login.js" -k -i -s`
+echo "$CURL_RESULT"
+check_response 204 "login.js uploaded"
