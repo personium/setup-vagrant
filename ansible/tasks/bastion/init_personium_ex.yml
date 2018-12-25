@@ -1,30 +1,5 @@
 # Copyright FUJITSU LIMITED 2018.
 
-- name: git clone plugin sample repo
-  git:
-    repo: https://github.com/personium/personium-plugin-sample.git
-    dest: /tmp/personium-plugin-sample
-    version: "{{ personium_plugin_sample_version }}"
-    depth: 1
-    force: yes
-  register: gitclone
-
-- block:
-  - name: build plugin sample
-    command: /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
-    args:
-      chdir: /tmp/personium-plugin-sample
-    environment:
-      JAVA_HOME: /opt/jdk
-    register: result
-    until: result.stdout.find('BUILD SUCCESS') != -1
-    retries: 3
-    delay: 20
-
-  - name: deploy plugin sample
-    command: cp /tmp/personium-plugin-sample/target/personium-plugin-sample.jar /personium/personium-core/plugins/personium-plugin-sample.jar
-  when: gitclone.changed
-
 - name: git clone ex httpclient repo
   git:
     repo: https://github.com/personium/personium-ex-httpclient.git
