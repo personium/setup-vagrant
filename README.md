@@ -111,6 +111,12 @@ If you follow the above procedures, your Personium Unit is constructed with the 
     |PORT         |443                 |
     |UnitUserToken|example_master_token|
 
+    The default setting for the environment created by vagrant is a unit certificate created by specifying localhost as Common Name.
+    Please re-create the unit certificate as necessary, for example when accessing with a name other than localhost.
+    How to create a unit certificate is [here](https://github.com/personium/ansible/blob/master/How_to_generate_Self-signed_Unit_Certificate.md).
+
+    By re-deploying the re-created unit.csr and unit-self-sign.crt to /opt/x509/ and restarting Tomcat, you can access it with the specified name.
+
 * Personium modules  
 
     |Module name                    |
