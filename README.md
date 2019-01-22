@@ -148,10 +148,10 @@ CentOS 7.2 x86_64
 
     |Category       | Name           |Version       |                   |
     |:--------------|:---------------|-------------:|:------------------|
-    | java          | JDK            |        8u131 | --                |
-    | tomcat        | tomcat         |       8.0.44 | web               |
-    |               | commons-daemon |       1.0.15 | --                |
-    | nginx         | nginx          |       1.13.3 | proxy             |
+    | java          | OpenJDK            |        8u192 | --                |
+    | tomcat        | tomcat         |       9.0.10 | web               |
+    |               | commons-daemon |       1.1.0 | --                |
+    | nginx         | nginx          |       1.14.0 | proxy             |
     |               | Headers More   |         0.32 | --                |
     | logback       | logback        |        1.0.3 | --                |
     |               | slf4j          |        1.6.4 | --                |
