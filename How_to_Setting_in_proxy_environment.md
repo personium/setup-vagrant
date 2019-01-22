@@ -25,7 +25,7 @@ This manual explains the settings for running Vagrant in a proxy environment.
 	```
 
 
-1. Enable your proxy setting in your Vagrantfile. Below is an example how to setup the proxy.
+1. Enable your proxy setting in your Vagrantfile under the cloned setup- vagrant directory. Below is an example how to setup the proxy.
 
 	```bash:Vagrantfile
 	 if Vagrant.has_plugin?("vagrant-proxyconf")
