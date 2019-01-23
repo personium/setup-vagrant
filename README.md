@@ -154,7 +154,7 @@ CentOS 7.2 x86_64
 
     |Category       | Name           |Version       |                   |
     |:--------------|:---------------|-------------:|:------------------|
-    | java          | OpenJDK        |        8u192 | --                |
+    | java          | AdoptOpenJDK   |        8u192 | --                |
     | tomcat        | tomcat         |       9.0.10 | web               |
     |               | commons-daemon |        1.1.0 | --                |
     | nginx         | nginx          |       1.14.0 | proxy             |
