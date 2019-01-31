@@ -66,11 +66,11 @@ Vagrant.configure(2) do |config|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
 
-  # if Vagrant.has_plugin?("vagrant-proxyconf")
-  #   config.proxy.http = "http://username:password@host:port/"
-  #   config.proxy.https = "http://username:password@host:port/"
-  #   config.proxy.no_proxy = "localhost,127.0.0.1"
-  # end
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http = "http://fj1738bt:0019970807@kmt.proxy.nic.fujitsu.com:8080"
+    config.proxy.https = "http://fj1738bt:0019970807@kmt.proxy.nic.fujitsu.com:8080"
+    config.proxy.no_proxy = "personium.example.com,127.0.0.1"
+  end
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
@@ -93,12 +93,12 @@ Vagrant.configure(2) do |config|
 
     # Making of self-signing certificate
     openssl genrsa -out /root/ansible/resource/web/opt/nginx/conf/server.key 2048
-    openssl req -new -key /root/ansible/resource/web/opt/nginx/conf/server.key -out /root/ansible/resource/web/opt/nginx/conf/server.csr -subj "/CN=localhost"
+    openssl req -new -key /root/ansible/resource/web/opt/nginx/conf/server.key -out /root/ansible/resource/web/opt/nginx/conf/server.csr -subj "/CN=personium.example.com"
     openssl x509 -req -days 365 -in /root/ansible/resource/web/opt/nginx/conf/server.csr -signkey /root/ansible/resource/web/opt/nginx/conf/server.key -out /root/ansible/resource/web/opt/nginx/conf/server.crt
 
     # Making of unit-self-sign certificate
     openssl genrsa -out /root/ansible/resource/ap/opt/x509/unit.key 2048 -outform DER
-    openssl req -new -key /root/ansible/resource/ap/opt/x509/unit.key -out /root/ansible/resource/ap/opt/x509/unit.csr -subj "/CN=localhost"
+    openssl req -new -key /root/ansible/resource/ap/opt/x509/unit.key -out /root/ansible/resource/ap/opt/x509/unit.csr -subj "/CN=personium.example.com"
     openssl x509 -req -days 3650 -in /root/ansible/resource/ap/opt/x509/unit.csr -signkey /root/ansible/resource/ap/opt/x509/unit.key -out /root/ansible/resource/ap/opt/x509/unit-self-sign.crt
 
     date; ansible-playbook /root/ansible/init_personium.yml ; date

@@ -87,7 +87,7 @@ CURL_RESULT=`curl -w "\nstatus:%{http_code}\n" $DOMAIN/$CELL_NAME/__/html/js/log
 echo "$CURL_RESULT"
 
 #Edit login.js
-sed -i -e "s/demo.personium.io/localhost/g" /tmp/login.js
+sed -i -e "s/demo.personium.io/personium.example.com/g" /tmp/login.js
 
 #Upload login.js
 echo "######  Upload login.js  ######"
