@@ -56,11 +56,11 @@ Ok, let's start to set up Personium!
 
 1. Verify that your Personium Unit-Manager is up and running.
     1. Access the following URL from the browser.   
-　    　https://localhost/app-uc-unit-manager/__/html/login.html  
+　    　https://personium.example.com/app-uc-unit-manager/__/html/login.html  
         \* Please refer to the link for [Unit-Manager](https://github.com/personium/app-uc-unit-manager "").  
 
     1. Enter the following on the login page and click the "sign in" button.  
-       * Login URL      : https://localhost/unitadmin/  
+       * Login URL      : https://personium.example.com/unitadmin/  
        * Username       : unitadmin  
        * Password       : {password}  
        \* For {password}, enter the password confirmed in the above "1."
@@ -69,13 +69,17 @@ Ok, let's start to set up Personium!
     1. Execute the following command  
 
         ```bash
-        $ curl -X POST "https://localhost/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -sS -k
+        $ curl -X POST "https://personium.example.com/__ctl/Cell" \  
+        -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" \  
+        -H "Accept:application/json" -i -sS -k
         ```
 
-        \* To execute the API on the virtual server, execute the command as follows.　　
+        \* To execute the API on the virtual server, execute the command as follows.  
 
         ```bash
-        $ curl -X POST "https://localhost/__ctl/Cell" -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" -H "Accept:application/json" -i -sS -k
+        $ curl -X POST "https://personium.example.com/__ctl/Cell" \  
+        -d "{\"Name\":\"sample\"}" -H "Authorization:Bearer example_master_token" \  
+        -H "Accept:application/json" -i -sS -k
         ```
 
     1. If Personium works fine, 201 response is returned as below. a cell is successfully created!  
@@ -89,11 +93,11 @@ Ok, let's start to set up Personium!
         Access-Control-Allow-Origin: *
         DataServiceVersion: 2.0
         ETag: W/"1-1422275532964"
-        Location: http://localhost/__ctl/Cell('sample')
+        Location: http://personium.example.com/__ctl/Cell('sample')
         X-Dc-Version: 1.3.20
         Server: PCS
 
-        {"d":{"results":{"__metadata":{"uri":"http:\/\/localhost\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
+        {"d":{"results":{"__metadata":{"uri":"http:\/\/personium.example.com\/__ctl\/Cell('sample')","etag":"W\/\"1-1422275532964\"","type":"UnitCtl.Cell"},"Name":"sample","__published":"\/Date(1422275532964)\/","__updated":"\/Date(1422275532964)\/"}}}
         ```
 
 
@@ -104,15 +108,15 @@ If you follow the above procedures, your Personium Unit is constructed with the 
 
 * parameters  
 
-    |Parameter    |                    |
-    |:------------|--------------------|
-    |VM Memory    |2048                |
-    |FQDN         |localhost           |
-    |PORT         |443                 |
-    |UnitUserToken|example_master_token|
+    |Parameter    |                     |
+    |:------------|---------------------|
+    |VM Memory    |2048                 |
+    |FQDN         |personium.example.com|
+    |PORT         |443                  |
+    |UnitUserToken|example_master_token |
 
-    The default setting for the environment created by vagrant is a unit certificate created by specifying localhost as Common Name.
-    Please re-create the unit certificate as necessary, for example when accessing with a name other than localhost.
+    The default setting for the environment created by vagrant is a unit certificate created by specifying personium.example.com as Common Name.
+    Please re-create the unit certificate as necessary, for example when accessing with a name other than personium.example.com.
     How to create a unit certificate is [here](https://github.com/personium/ansible/blob/master/How_to_generate_Self-signed_Unit_Certificate.md).
 
     By re-deploying the re-created unit.csr and unit-self-sign.crt to /opt/x509/ and restarting Tomcat, you can access it with the specified name.

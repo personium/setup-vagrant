@@ -31,7 +31,7 @@ This manual explains the settings for running Vagrant in a proxy environment.
 	 if Vagrant.has_plugin?("vagrant-proxyconf")
 	   config.proxy.http = "http://{proxy_ip}:{proxy_port}/"
 	   config.proxy.https = "http://{proxy_ip}:{proxy_port}/"
-	   config.proxy.no_proxy = "localhost,127.0.0.1"
+	   config.proxy.no_proxy = "personium.example.com,127.0.0.1"
 	 end
 	```
 
@@ -41,7 +41,7 @@ This manual explains the settings for running Vagrant in a proxy environment.
 	 if Vagrant.has_plugin?("vagrant-proxyconf")
 	   config.proxy.http = "http://{username}:{password}@{proxy_ip}:{proxy_port}/"
 	   config.proxy.https = "http://{username}:{password}@{proxy_ip}:{proxy_port}/"
-	   config.proxy.no_proxy = "localhost,127.0.0.1"
+	   config.proxy.no_proxy = "personium.example.com,127.0.0.1"
 	 end
 	```
 
