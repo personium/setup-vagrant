@@ -34,12 +34,20 @@ Ok, let's start to set up Personium!
 \* Sometimes tomcat will failed to start because it takes more than 60 seconds. But tomcat is usually running, so please ignore the failure and go to the next step.  
 \* If your network is behind a proxy server, please configure the proxy settings for vagrant and Ansible before running `vagrant up`.  
 [How to Setting in proxy environment](How_to_Setting_in_proxy_environment.md "")  
-**Make sure that port 443/tcp is not used on the PC and execute it.**  
+  **Make sure that port 443/tcp is not used on the PC and execute it.**
 
     ```bash
     $ cd ./setup-vagrant
     $ vagrant up
     ```
+
+1. Add following to end of hosts file on your machine.(E.G: C:\Windows\System32\drivers\etc\hosts)  
+
+    ```
+    127.0.0.1  personium.example.com
+    ```
+
+    * If use a proxy environment, Please see [Proxy exclusion setting](proxy_exclusion_setting.md "").  
 
 #### Confirm Personium
 
