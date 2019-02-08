@@ -47,7 +47,7 @@ Ok, let's start to set up Personium!
     127.0.0.1  personium.example.com
     ```
 
-    * If use a proxy environment, Please see [Proxy exclusion setting](proxy_exclusion_setting.md "").  
+    * If use a proxy environment, Please see [Proxy exclusion setting](https://personium.io/docs/en/server-operator/proxy_exclusion_setting.html).  
 
 #### Confirm Personium
 
