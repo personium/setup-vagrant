@@ -163,15 +163,4 @@ If you follow the above procedures, your Personium Unit is constructed with the 
 CentOS 7.2 x86_64
 
 * Middleware  
-
-    |Category       | Name           |Version       |                   |
-    |:--------------|:---------------|-------------:|:------------------|
-    | java          | AdoptOpenJDK   |        8u192 | --                |
-    | tomcat        | tomcat         |       9.0.10 | web               |
-    |               | commons-daemon |        1.1.0 | --                |
-    | nginx         | nginx          |       1.14.0 | proxy             |
-    |               | Headers More   |         0.32 | --                |
-    | logback       | logback        |        1.0.3 | --                |
-    |               | slf4j          |        1.6.4 | --                |
-    | memcached     | memcached      |       1.4.21 | cache             |
-    | elasticsearch | elasticsearch  |       5.6.14 | db & search engine|
+If you want to check the Middleware version,Please check [here](https://github.com/personium/ansible#middleware-on-vm).  
