@@ -12,33 +12,11 @@
 - name: Deploy elasticsearch.yml
   template: src=./resource/es/opt/elasticsearch-{{ version }}/config/elasticsearch.yml.j2 dest=/opt/elasticsearch-{{ version }}/config/elasticsearch.yml owner=elasticsearch group=elasticsearch mode=0644
 
+- name: Deploy jvm.options
+  template: src=./resource/es/opt/elasticsearch-{{ version }}/config/jvm.options dest=/opt/elasticsearch-{{ version }}/config/jvm.options owner=elasticsearch group=elasticsearch mode=0660
+
 - name: Change owner /opt/elasticsearch-{{ version }} directory
   file: "path=/opt/elasticsearch-{{ version }} owner=elasticsearch group=elasticsearch recurse=yes"
-
-- name: Plugin install check
-  stat: path=/opt/elasticsearch-{{ version }}/plugins/delete-by-query
-  register: fm
-
-- name: Install delete-by-query plugin
-  command: "/opt/elasticsearch-{{ version }}/bin/plugin install delete-by-query"
-  when: not fm.stat.exists
-  register: result
-  ignore_errors: True
-
-- block:
-  - name: Retry download Install delete-by-query plugin
-    get_url: url=https://download.elastic.co/elasticsearch/release/org/elasticsearch/plugin/delete-by-query/{{ version }}/delete-by-query-{{ version }}.zip dest=/tmp/delete-by-query-{{ version }}.zip
-
-  - name: Check delete-by-query plugin download file
-    stat: path=/tmp/delete-by-query-{{ version }}.zip
-    register: dlf
-
-  - name: Retry Install delete-by-query plugin
-    command: "/opt/elasticsearch-{{ version }}/bin/plugin install file:/tmp/delete-by-query-{{ version }}.zip"
-    when: dlf.stat.exists
-    environment:
-      JAVA_HOME: "/opt/jdk"
-  when: result is failed
 
 - name: Deploy /etc/logrotate.d/es-service
   copy: src=./resource/es/etc/logrotate.d/es-service dest=/etc/logrotate.d/es-service owner=root group=root mode=0644
