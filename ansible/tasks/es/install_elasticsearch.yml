@@ -4,7 +4,7 @@
   file: "state=directory path=/usr/local/src/elasticsearch-{{ version }} owner=root group=root recurse=yes"
 
 - name: Download elasticsearch-{{ version }}.tar.gz
-  get_url: url=https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-{{ version }}.tar.gz dest=/usr/local/src/elasticsearch-{{ version }}/elasticsearch-{{ version }}.tar.gz
+  get_url: url=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ version }}.tar.gz dest=/usr/local/src/elasticsearch-{{ version }}/elasticsearch-{{ version }}.tar.gz
 
 - name: Deploy elasticsearch
   unarchive: src=/usr/local/src/elasticsearch-{{ version }}/elasticsearch-{{ version }}.tar.gz dest=/opt copy=no
