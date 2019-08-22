@@ -1,7 +1,0 @@
-/personium/memcached/log/memcached.log {
-    daily
-    dateext
-    compress
-    missingok
-    copytruncate
-}

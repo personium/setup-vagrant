@@ -1,9 +1,0 @@
-# Copyright FUJITSU LIMITED 2015-2018.
-
-tag_ServerType: es
-
-# elasictsearch version
-version: 6.6.1
-
-# elasticsearch heapsize
-es_heapsize: 256

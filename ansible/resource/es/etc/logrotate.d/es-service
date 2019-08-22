@@ -1,7 +1,0 @@
-/personium/elasticsearch/log/service.log {
-    daily
-    dateext
-    compress
-    missingok
-    copytruncate
-}

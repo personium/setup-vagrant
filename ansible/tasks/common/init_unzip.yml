@@ -1,4 +1,0 @@
-# Copyright FUJITSU LIMITED 2017-2018.
-
-- name: install unzip
-  yum: name=unzip state=present

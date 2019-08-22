@@ -1,7 +1,0 @@
-/personium/personium-core/log/personium-core.log {
-    daily
-    dateext
-    compress
-    missingok
-    copytruncate
-}

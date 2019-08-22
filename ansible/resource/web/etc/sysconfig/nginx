@@ -1,3 +1,0 @@
-nginx="/opt/nginx/sbin/nginx"
-NGINX_CONF_FILE="/opt/nginx/conf/nginx.conf"
-ulimit -n 65536

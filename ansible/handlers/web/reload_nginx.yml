@@ -1,4 +1,0 @@
-# Copyright FUJITSU LIMITED 2015-2018.
-
-- name: reload nginx
-  systemd: name=nginx state=reloaded
