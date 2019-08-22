@@ -83,12 +83,16 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     # package install
     yum -y install epel-release
-    yum -y install python-devel unzip wget ansible
+    yum -y install python-devel unzip wget ansible git
     ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ""
     cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 
     # provision with ansible
-    cp -r /vagrant/ansible /root
+    cd /root
+    git clone https://github.com/personium/ansible
+    mv ansible{,.org}
+    cp -r ansible.org/1-server_unit ansible
+    cp -f /vagrant/hosts /root/ansible/static_inventory/hosts
     cd /root/ansible
 
     # Making of self-signing certificate
