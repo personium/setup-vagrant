@@ -1,7 +1,0 @@
-# Copyright FUJITSU LIMITED 2015-2018.
-
-- name: Deploy /etc/ssh/sshd_config
-  copy: src=./resource/common/etc/ssh/sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode=0644
-
-- name: sshd reload
-  systemd: name=sshd state=reloaded

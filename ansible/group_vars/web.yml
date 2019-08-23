@@ -1,6 +1,0 @@
-# Copyright FUJITSU LIMITED 2015-2018.
-
-tag_ServerType: web
-
-nginx_version: 1.14.0
-nginx_hm_version: 0.32

@@ -1,6 +1,0 @@
-memcached=/opt/memcached-{{ memcached_version }}/bin/memcached
-PORT={{ lock_port }}
-USER=memcached
-MAXCONN={{ memcached_lock_maxconn }}
-CACHESIZE={{ memcached_lock_cachesize }}
-OPTIONS="-I 6m -v -l 0.0.0.0"

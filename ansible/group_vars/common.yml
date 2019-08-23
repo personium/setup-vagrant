@@ -1,5 +1,0 @@
-# Copyright FUJITSU LIMITED 2015-2018.
-
-tag_ServerType: common
-
-http_proxy: "{{lookup('env', 'http_proxy')}}"
