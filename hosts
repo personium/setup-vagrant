@@ -8,38 +8,22 @@
 #Fill in the Private IP Address of Personium server
 127.0.0.1
 
-############ Setting items of bastion server ############
-[tag_ServerType_bastion:vars]
-
+############ Setting items of All servers ############
+[all:vars]
 ## Hostname
+# EX: {Tag_Name}->1-server.example
 tag_Name=personium.example.com
 
-## User who runs ansible
-ansible_ssh_user=root
-
-## Secret key for executing ansible(Absolute path)
-ansible_ssh_private_key_file=/root/.ssh/id_rsa
-
-# Master Token of Personium
+## Master Token of Personium
+# EX: {Master_Token}->abc123
 master_token=example_master_token
 
 ## Web server FQDN
-base_url=https://personium.example.com
+# EX: {Personium_FQDN}->1-server.example
+base_url=personium.example.com
 
-############ Setting items of Personium server ############
-[tag_ServerType_personium:vars]
-
-## Hostname
-tag_Name=personium.example.com
-
-## User who runs ansible
-ansible_ssh_user=root
-
-## Secret key for executing ansible(Absolute path)
-ansible_ssh_private_key_file=/root/.ssh/id_rsa
-
-# Master Token of Personium
-master_token=example_master_token
-
-## Web server FQDN
-base_url=https://personium.example.com
+## URL format to access cell
+## true:path based cell url
+## false:per cell fqdn url
+# EX: {Path_Based_Cell_Url_Enabled}->false
+path_based_cell_url_enabled=true
